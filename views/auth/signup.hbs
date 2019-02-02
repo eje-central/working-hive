@@ -1,24 +1,39 @@
-<h2>Registra tu usuario</h2>
 
-<form id="form-container" action="/signup" method="post">
-  <label for="username">Nombre de usuario</label>
-  <input type="text" name="username" placeholder="Nombre de usuario" id="username">
-  <br>
-  <label for="name">Nombre completo</label>
-  <input type="text" name="name" placeholder="Nombre completo" id="name">
-  <br>
-  <label for="password">Contraseña</label>
-  <input type="password" name="password" placeholder="Contraseña" id="password">
-  <br>
+<body id="principal">
+  <div>
+    <div class="labelContainer">
+      <form id="form-container" action="/signup" method="post">
+      <label for="username" class="mainLabel">Correo</label>
+      <br>
+      <input type="text" name="username" id="username">
+      <br>
+    </div>
+    <div class="labelContainer">
+      <label for="name" class="mainLabel">Nombre</label>
+      <br>
+      <input type="text" name="name" id="name">
+      <br>
+    </div>
+    <div class="labelContainer">
+      <label for="password" class="mainLabel">Contraseña</label>
+      <br>
+      <input type="password" name="password" id="password">
+      <br>
+    </div>
+
   {{#if message}}
   <div class="error-message">
     {{message}}
   </div>
   {{/if}}
   <br>
-  <button type="submit" name="button">Crea tu cuenta</button>
-  <br>
+  <div class="main">
+  <button type="submit" name="button" class="button">Registra tu usuario</button>
+  </div>
   <p class="account-message">
-    Ya tienes una cuenta? <a href="/login">Ingresa</a>
+    ¿Ya cuentas con usuario? <a href="/login"><br> Inicia sesión</a>
   </p>
+</div>
+
+</body>
 </form>

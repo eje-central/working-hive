@@ -1,12 +1,18 @@
+<body id="principal">
+  
+<div>
 <form action="/login" method="post">
-  <div class="">
-    <label for="username">Nombre de usuario</label>
-    <input type="text" name="username" value="">
+  <div class="labelContainer">
+    <label for="username" class="mainLabel">Correo</label>
+    <br>
+    <input type="text" name="username" id="username">
+    <br>
   </div>
 
-  <div class="">
-    <label for="password">Contraseña</label>
-    <input type="password" name="password" value="">
+  <div class="labelContainer">
+    <label for="password" class="mainLabel">Contraseña</label>
+    <br>
+    <input type="password" name="password" id="password">
   </div>
 
   {{#if message}}
@@ -15,8 +21,11 @@
   </div>
   {{/if}}
 
-  <div class="">
-    <input type="submit" value="Ingresa">
+  <div class="main">
+    <input type="submit" value="Ingresa" class="button">
   </div>
-
 </form>
+</div>
+
+
+</body>
