@@ -3,11 +3,25 @@ const authRoutes = express.Router();
 const zxcvbn = require("zxcvbn");
 const passport = require("passport");
 const ensureLogin = require("connect-ensure-login");
-
-const User = require('../models/user')
+const nodemailer = require("nodemailer");
+const User = require('../models/user');
 
 const bcrypt = require('bcrypt')
 const bcryptSalt = 10
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "noedabid@gmail.com",
+    pass: "Noviembre2017"
+  }
+});
+
+var mailOptions = {
+  from: "hector@ejecentral.com.mx",
+  to: "porfirio.romo@yahoo.com.mx",
+  subject: "Test from Working Hive",
+  text: "Bienvenido al sistema!"
+};
 
 authRoutes.get('/signup', (req, res, next) => {
   res.render('auth/signup')
@@ -36,7 +50,7 @@ authRoutes.post('/signup', (req, res, next) => {
         res.render('auth/signup', {
           message: 'El usuario ingresado ya existe'
         })
-        return
+        return;
       }
 
       const salt = bcrypt.genSaltSync(bcryptSalt)
@@ -54,6 +68,13 @@ authRoutes.post('/signup', (req, res, next) => {
             message: 'Algo salió mal y no pude guardar tu registro. Inténtalo de nuevo mas tarde'
           })
         } else {
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
           res.redirect('/')
         }
       })
