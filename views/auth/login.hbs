@@ -1,31 +1,56 @@
-<body id="principal">
-  
-<div>
-<form action="/login" method="post">
-  <div class="labelContainer">
-    <label for="username" class="mainLabel">Correo</label>
-    <br>
-    <input type="text" name="username" id="username">
-    <br>
+<section class="hero is-fullheight">
+  <div class="hero-head">
+    <header>
+    </header>
+  </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <form action="/login" method="post">
+        <div>
+          <label for="username" class="mainLabel">Correo</label>
+          <br>
+          <div class="field">
+            <p class="control has-icons-left">
+              <input class="input" type="email" name="username" id="username" placeholder="Mail">
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+            </p>
+          </div>
+        </div>
+        <div>
+          <label for="password" class="mainLabel">Contraseña</label>
+          <br>
+          <div class="field">
+            <p class="control has-icons-left">
+              <input class="input" type="password" name="password" id="password" placeholder="Password">
+              <span class="icon is-small is-left">
+                <i class="fas fa-key"></i>
+              </span>
+            </p>
+          </div>
+        </div>
+
+        {{#if message}}
+          <div class="error-message">
+            {{message}}
+          </div>
+        {{/if}}
+        <br>
+        <br>
+        <div class="buttons">
+          <button class="button is-dark is-medium is-outlined is-fullwidth" type="submit">
+            <strong>Ingresa</strong>
+          </button>
+        </div>
+      </form>
+      <p class="account-message">
+        ¿No cuentas con usuario? <a href="/signup"><br>Crea tu cuenta</a>
+      </p>
+    </div>
   </div>
 
-  <div class="labelContainer">
-    <label for="password" class="mainLabel">Contraseña</label>
-    <br>
-    <input type="password" name="password" id="password">
+  <!-- Hero footer: will stick at the bottom -->
+  <div class="hero-foot">
   </div>
-
-  {{#if message}}
-  <div class="error-message">
-    {{message}}
-  </div>
-  {{/if}}
-
-  <div class="main">
-    <input type="submit" value="Ingresa" class="button">
-  </div>
-</form>
-</div>
-
-
-</body>
+</section>

@@ -8,7 +8,7 @@ a {
 #inside {
   background-image: none; }
 
-#principal {
+.is-fullheight {
   background-image: url("../images/stock-vector-abstract-bee-hive-hexagon-and-technology-line-background-497282767.jpg");
   background-repeat: no-repeat;
   background-position: top;
@@ -41,11 +41,5 @@ html {
 
 .error-message {
   margin: 1rem 0 0 4rem; }
-
-#username, #name, #password {
-  height: 2rem;
-  width: 20rem;
-  border-radius: 6px;
-  background-color: lightgray; }
 
 /*# sourceMappingURL=style.css.map */

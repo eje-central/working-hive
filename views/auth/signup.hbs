@@ -1,39 +1,64 @@
-
-<body id="principal">
-  <div>
-    <div class="labelContainer">
+<section class="hero is-fullheight">
+  <div class="hero-head">
+    <header>
+    </header>
+  </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
       <form id="form-container" action="/signup" method="post">
-      <label for="username" class="mainLabel">Correo</label>
-      <br>
-      <input type="text" name="username" id="username">
-      <br>
-    </div>
-    <div class="labelContainer">
-      <label for="name" class="mainLabel">Nombre</label>
-      <br>
-      <input type="text" name="name" id="name">
-      <br>
-    </div>
-    <div class="labelContainer">
-      <label for="password" class="mainLabel">Contraseña</label>
-      <br>
-      <input type="password" name="password" id="password">
-      <br>
-    </div>
+        <div>
+          <label for="username" class="mainLabel">Correo</label>
+          <br>
+          <div class="field">
+            <p class="control has-icons-left">
+              <input class="input" type="email" name="username" id="username" placeholder="Mail">
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+            </p>
+          </div>
+          <label for="name" class="mainLabel">Nombre</label>
+          <br>
+          <div class="field">
+            <p class="control has-icons-left">
+              <input class="input" type="text" name="name" id="name" placeholder="Usuario">
+              <span class="icon is-small is-left">
+                <i class="fa fa-user-circle"></i>
+              </span>
+            </p>
+          </div>
+          <label for="password" class="mainLabel">Contraseña</label>
+          <br>
+          <div class="field">
+            <p class="control has-icons-left">
+              <input class="input" type="password" name="password" id="password" placeholder="Password">
+              <span class="icon is-small is-left">
+                <i class="fas fa-key"></i>
+              </span>
+            </p>
+          </div>
+        </div>
 
-  {{#if message}}
-  <div class="error-message">
-    {{message}}
+        {{#if message}}
+          <div class="error-message">
+            {{message}}
+          </div>
+        {{/if}}
+        <br>
+        <br>
+        <div class="buttons">
+          <button class="button is-dark is-medium is-outlined is-fullwidth" type="submit">
+            <strong>Ingresa</strong>
+          </button>
+        </div>
+      </form>
+      <p class="account-message">
+        ¿Ya cuentas con usuario? <a href="/login"><br>Inicia sesión</a>
+      </p>
+    </div>
   </div>
-  {{/if}}
-  <br>
-  <div class="main">
-  <button type="submit" name="button" class="button">Registra tu usuario</button>
-  </div>
-  <p class="account-message">
-    ¿Ya cuentas con usuario? <a href="/login"><br> Inicia sesión</a>
-  </p>
-</div>
 
-</body>
-</form>
+  <!-- Hero footer: will stick at the bottom -->
+  <div class="hero-foot">
+  </div>
+</section>
