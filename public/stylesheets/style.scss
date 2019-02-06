@@ -6,3 +6,55 @@ body {
 a {
   color: #00B7FF;
 }
+
+#inside {
+  background-image: none;
+}
+
+.is-fullheight {
+  background-image: url('../images/stock-vector-abstract-bee-hive-hexagon-and-technology-line-background-497282767.jpg');
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: 200%
+}
+
+.title {
+  text-align: center;
+}
+
+.button {
+ background-color: gray;
+ padding: 12px;
+ color: white;
+ border-radius: 6px;
+ text-decoration: none;
+ font-size: 1.8rem;
+}
+
+.main {
+  margin: 30px;
+  text-align: center;
+}
+
+.mainLabel {
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+html {
+  font-size: 10px;
+}
+
+.labelContainer {
+  margin: 4rem 0 0 4rem;
+}
+.error-message {
+  margin: 1rem 0 0 4rem;
+}
+
+// #username, #name, #password {
+//   height: 2rem;
+//   width: 20rem;
+//   border-radius: 6px;
+//   background-color: lightgray;
+// }
