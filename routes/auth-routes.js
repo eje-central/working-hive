@@ -82,4 +82,9 @@ authRoutes.get('/logout', (req, res, next) => {
   req.logout()
   res.redirect('login')
 })
+
+authRoutes.get('/private-mess', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('not-assigned', { user: req.user })
+})
+
 module.exports = authRoutes
