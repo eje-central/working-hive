@@ -3,11 +3,36 @@ const authRoutes = express.Router();
 const zxcvbn = require("zxcvbn");
 const passport = require("passport");
 const ensureLogin = require("connect-ensure-login");
-
-const User = require('../models/user')
+const nodemailer = require("nodemailer");
+const User = require('../models/user');
 
 const bcrypt = require('bcrypt')
-const bcryptSalt = 10
+const bcryptSalt = 10;
+
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "workinghivenotifier@gmail.com",
+//     pass: "Enero.2019"
+//   }
+// });
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.ionos.mx",
+  port: 465,
+  auth: {
+    user: "sistema@ejecentral.studio",
+    pass: "R-UNuw8TZn5MpaC"
+  }
+});
+
+
+const mailOptions = (nombre,correo) => ({
+  from: "sistema@ejecentral.studio",
+  to: correo,
+  subject: "Working Hive",
+  text: `Bienvenido al sistema ${nombre}!`
+});
 
 authRoutes.get('/signup', (req, res, next) => {
   res.render('auth/signup')
@@ -36,7 +61,7 @@ authRoutes.post('/signup', (req, res, next) => {
         res.render('auth/signup', {
           message: 'El usuario ingresado ya existe'
         })
-        return
+        return;
       }
 
       const salt = bcrypt.genSaltSync(bcryptSalt)
@@ -51,10 +76,23 @@ authRoutes.post('/signup', (req, res, next) => {
       newUser.save((err) => {
         if (err) {
           res.render('auth/signup', {
-            message: 'Algo salió mal y no pude guardar tu registro. Inténtalo de nuevo mas tarde'
+            message: 'Algo salió mal al guardar el usuario. Inténtalo de nuevo mas tarde'
           })
         } else {
-          res.redirect('/')
+          transporter.sendMail(mailOptions(name,username), function(
+            error,
+            info
+          ) {
+            if (error) {
+              console.log(error);
+              res.render('auth/signup', {
+                message: 'Algo salió mal al enviar el correo. Inténtalo de nuevo mas tarde'
+              });
+            } else {
+              console.log("Email sent: " + info.response);
+            }
+          });
+          res.redirect("/private-page");
         }
       })
     })

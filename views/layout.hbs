@@ -8,10 +8,65 @@
   <link rel="stylesheet" href="/stylesheets/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" style="text/css">
 </head>
-<body>
-
+<body> 
+  {{#if user}}
+  <nav class="navbar is-dark navbar-start" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://bulma.io">
+        <img src="../images/panal.png" width="28" height="28">
+      </a>
+  
+      <div class="navbar-item dropdown">
+        <div class="dropdown-trigger">
+          <button class="button is-warning" aria-haspopup="true" aria-controls="dropdown-menu">
+            <span>Menú</span>
+            <span class="icon is-small">
+              <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+          <div class="dropdown-content">
+            <a href="#" class="dropdown-item">
+              Nuevo proyecto
+            </a>
+            <a class="dropdown-item">
+              Organización
+            </a>
+            <a href="#" class="dropdown-item">
+              Reportes
+            </a>
+            <hr class="dropdown-divider">
+            <a href="/logout" class="dropdown-item">
+              Log out
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a href="#" class="navbar-item">
+          Nuevo proyecto
+        </a>
+        <a class="navbar-item">
+          Organización
+        </a>
+        <a href="#" class="navbar-item">
+          Reportes
+        </a>
+      </div>
+      <div class="navbar-item navbar-end">
+        <div class="buttons">
+          <a class="button is-warning" href="/logout">
+            <strong>Log out</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  {{/if}}
   {{{body}}}
-
   <script src="/javascripts/script.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 
