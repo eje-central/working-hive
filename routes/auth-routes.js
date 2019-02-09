@@ -121,4 +121,32 @@ authRoutes.get('/logout', (req, res, next) => {
   res.redirect('login')
 })
 
+authRoutes.get('/private-mess', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('not-assigned', { user: req.user })
+})
+
+authRoutes.get('/reportes', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('reportes', { user: req.user })
+})
+
+authRoutes.get('/trabajadores', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('trabajadores', { user: req.user })
+})
+
+authRoutes.get('/trabajadores-detalle', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('detalle-trabajador', { user: req.user })
+})
+
+authRoutes.get('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('nuevo', { user: req.user })
+})
+
+authRoutes.get('/home', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('dashboard', { user: req.user })
+})
+
+authRoutes.get('/proyecto', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('detalle-proyecto', { user: req.user })
+})
+
 module.exports = authRoutes
