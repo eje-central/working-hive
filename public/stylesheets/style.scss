@@ -9,10 +9,11 @@ a {
 
 #inside {
   background-image: none;
+  height: 100%;
 }
 
 .is-fullheight {
-  background-image: url('../images/fondo3.jpg');
+  background-image: url('../images/fondo4.jpg');
   background-repeat: no-repeat;
   background-position: top;
   background-size: 200%
@@ -52,9 +53,27 @@ html {
   margin: 1rem 0 0 4rem;
 }
 
-// #username, #name, #password {
-//   height: 2rem;
-//   width: 20rem;
-//   border-radius: 6px;
-//   background-color: lightgray;
-// }
+.height {
+  height: 100%;
+}
+.separado {
+  height: 65vh;
+  display: block;
+  overflow-y: auto;
+  flex-direction: column;
+}
+.separados {
+  height: 18vh;
+  display: flex;
+  overflow-y: auto;
+  flex-direction: column;
+}
+
+.titleDash {
+  padding: 5px !important;
+}
+
+.is-horizontal-center {
+  justify-content: center;
+}
+
