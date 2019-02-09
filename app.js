@@ -13,8 +13,7 @@ const bcrypt       = require('bcrypt');
 const passport     = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User         = require('./models/user');
-const flash        = require('connect-flash');
-const exphbs       = require('express-handlebars');
+const flash        = require('connect-flash'); 
 
 mongoose
   .connect('mongodb://localhost/eje-central', {useNewUrlParser: true})
