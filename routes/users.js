@@ -18,7 +18,7 @@ authRoutes.get("/users", ensureLogin.ensureLoggedIn(), (req, res, next) => {
 );
 
 authRoutes.get("/user/add", ensureLogin.ensureLoggedIn(), (req, res, next) => {
-  res.render("user-add", { user: req.user });
+  res.render("users", { user: req.user , message:"El usuario se agregó correctamente"});
 });
 
 authRoutes.get("/user/delete", 
