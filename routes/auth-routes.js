@@ -121,18 +121,4 @@ authRoutes.get('/logout', (req, res, next) => {
   res.redirect('login')
 })
 
-authRoutes.get("/user",ensureLogin.ensureLoggedIn(),(req, res, next) => {
-    User.find()
-    .populate('author')
-    .then(users => {
-      res.render('users', { users })
-    })
-    .catch(err => {
-      console.log(err)
-    })
-
-    res.render("user", { user: req.user });
-  }
-);
-
 module.exports = authRoutes

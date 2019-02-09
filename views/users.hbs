@@ -1,0 +1,33 @@
+<body id="inside">
+  <h3>Módulo usuarios {{{user.name}}}</h3>
+  {{#if user}}
+
+  {{#if users}}
+  <table>
+    <tr>
+      <td>Correo</td>
+      <td>Nombre</td>
+      <td>Rol</td>
+      <td>Sueldo</td>
+      <td>Fecha alta</td>
+      <td>PM</td>
+      <td></td>
+    </tr>
+    {{#each users}}
+    <tr>
+      <td>{{this.correo}}</td>
+      <td>{{this.name}}</td>
+      <td>{{this.rol_id}} </td> 
+      <td>{{this.sueldo}}</td>
+      <td>{{this.created_at}}</td>
+      <td><input type="checkbox" name="PM" value="PM"></td>
+      <td><input type="button" name="Eliminar" value="Eliminar"></td>
+    </tr>
+    {{/each}}
+  </table> 
+  <a href="/user/add">Agregar usuario</a>
+  {{/if}}
+  <br>
+  <a href="/">Página principal</a>
+  {{/if}}
+</body>

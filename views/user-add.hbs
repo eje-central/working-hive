@@ -1,0 +1,21 @@
+<form action="/user/add" method="post">
+  <label for="titulo">Correo:</label>
+  <input type="text" name="Correo" value="" placeholder="Título del libro">
+  <br>
+  <label for="autor">Nombre:</label>
+  <input type="text" name="author" value="" placeholder="Autor del libro">
+  <br>
+  <label for="descripcion">rol:</label>
+  <input type="text" name="description" value="" placeholder="Descripcion">
+  <br>
+  <label for="rating">sueldo</label>
+  <input type="number" name="rating" value="" placeholder="Calificación">
+  <br>
+  <button type="submit" name="button">Guardar</button>
+</form>
+{{#if message}}
+<div class="error-message">
+  {{message}}
+</div>
+{{/if}}
+       

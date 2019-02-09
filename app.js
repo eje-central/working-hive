@@ -14,6 +14,7 @@ const passport     = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User         = require('./models/user');
 const flash        = require('connect-flash');
+const exphbs       = require('express-handlebars');
 
 mongoose
   .connect('mongodb://localhost/eje-central', {useNewUrlParser: true})
@@ -79,8 +80,15 @@ app.use(require('node-sass-middleware')({
   sourceMap: true
 }));
       
-
+// var hbs = exphbs.create({
+//   extname: ".hbs",
+//   partialsDir: ["views/commons/", "views/"]
+// });
+//app.engine("hbs", hbs.engine);
+//app.engine('handlebars', exphbs({ defaultLayout: 'layout' }));
+hbs.registerPartials(__dirname + "/views/commons");
 app.set('views', path.join(__dirname, 'views'));
+
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
@@ -90,12 +98,14 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 // default value for title local
 app.locals.title = 'Bienvenido - Eje Central Corp.';
 
- 
-
+  
 const index = require("./routes/index");
 app.use("/", index);
 
 const authRoutes = require("./routes/auth-routes");
 app.use("/", authRoutes);
+
+const usersRoutes = require("./routes/users");
+app.use("/", usersRoutes);
 
 module.exports = app;
