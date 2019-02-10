@@ -26,7 +26,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-
 const mailOptions = (nombre,correo) => ({
   from: "sistema@ejecentral.studio",
   to: correo,
@@ -39,14 +38,14 @@ authRoutes.get('/signup', (req, res, next) => {
 })
 
 authRoutes.post('/signup', (req, res, next) => {
-  const username = req.body.username
+  const username = req.body.username;
   const password = req.body.password
-  const name= req.body.name
-  if (username == "" || password == "") {
-    res.render('auth/signup', {
-      message: 'Indica un nombre de usuario y contraseña'
-    })
-    return
+  const name= req.body.name 
+  if (username == "" || username == "") {
+    res.render("auth/signup", {
+      message: "Indica un nombre de usuario y contraseña"
+    });
+    return;
   }
   if (zxcvbn(password).score < 1) {
     res.render('auth/signup', {
@@ -58,35 +57,37 @@ authRoutes.post('/signup', (req, res, next) => {
   User.findOne({ username })
     .then(user => {
       if (user !== null) {
-        res.render('auth/signup', {
-          message: 'El usuario ingresado ya existe'
-        })
+        res.render("auth/signup", {
+          message: `El usuario ${username} ya existe`
+        });
         return;
       }
 
-      const salt = bcrypt.genSaltSync(bcryptSalt)
-      const hashPass = bcrypt.hashSync(password, salt)
+      const salt = bcrypt.genSaltSync(bcryptSalt);
+      const hashPass = bcrypt.hashSync(password, salt);
 
       const newUser = new User({
         username,
         name,
         password: hashPass
-      })
+      });
 
-      newUser.save((err) => {
+      newUser.save(err => {
         if (err) {
-          res.render('auth/signup', {
-            message: 'Algo salió mal al guardar el usuario. Inténtalo de nuevo mas tarde'
-          })
+          res.render("auth/signup", {
+            message:
+              "Algo salió mal al guardar el usuario. Inténtalo de nuevo mas tarde"
+          });
         } else {
-          transporter.sendMail(mailOptions(name,username), function(
+          transporter.sendMail(mailOptions(name, username), function(
             error,
             info
           ) {
             if (error) {
               console.log(error);
-              res.render('auth/signup', {
-                message: 'Algo salió mal al enviar el correo. Inténtalo de nuevo mas tarde'
+              res.render("auth/signup", {
+                message:
+                  "Algo salió mal al enviar el correo. Inténtalo de nuevo mas tarde"
               });
             } else {
               console.log("Email sent: " + info.response);
@@ -94,11 +95,11 @@ authRoutes.post('/signup', (req, res, next) => {
           });
           res.redirect("/private-page");
         }
-      })
+      });
     })
     .catch(error => {
-      next(error)
-    })
+      next(error);
+    });
 })
 
 authRoutes.get('/login', (req, res, next) => {

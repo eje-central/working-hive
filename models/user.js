@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-  correo: String,
+  username: String,
   name: String,
   password: String,
   rol_id: Number,
-  sueldo: Number,
+  salary: Number,
   pm: Boolean,
 }, {
     timestamps: {
