@@ -1,10 +1,11 @@
 <body id="inside">
+
   <h3>Módulo usuarios {{{user.name}}}</h3>
   {{#if user}}
 
   {{#if users}}
-  <table>
-    <tr>
+  <table >
+    <tr >
       <td>Correo</td>
       <td>Nombre</td>
       <td>Rol</td>
@@ -15,19 +16,39 @@
     </tr>
     {{#each users}}
     <tr>
-      <td>{{this.correo}}</td>
-      <td>{{this.name}}</td>
+      <td>{{this.mail}}</td>
+      <td class="{{this._id}}">{{this.name}}</td>
       <td>{{this.rol_id}} </td> 
-      <td>{{this.sueldo}}</td>
+      <td>{{this.salary}}</td>
       <td>{{this.created_at}}</td>
       <td><input type="checkbox" name="PM" value="PM"></td>
-      <td><input type="button" name="Eliminar" value="Eliminar"></td>
+      <td>
+        <input type="button" id="{{this._id}}" class="eliminar-usuario button is-danger" value="Eliminar">
+      </td>
     </tr>
     {{/each}}
   </table> 
-  <a href="/user/add">Agregar usuario</a>
+  <input type="text" style="display: none" value="" id="userToDelete">
+  <a href="/user/add" class="button is-success">Agregar usuario</a>
   {{/if}}
   <br>
   <a href="/">Página principal</a>
-  {{/if}}
+  {{/if}} 
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Modal title</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <!-- Content ... -->
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" id="modal-guardar">Guardar cambios</button>
+        <button class="button is-danger" id="modal-eliminar">Eliminar</button>
+        <button class="button cancel" >Cancelar</button>
+      </footer>
+    </div>
+  </div>
 </body>

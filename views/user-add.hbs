@@ -1,15 +1,29 @@
+<h1>Agregar nuevo usuario</h1>
 <form action="/user/add" method="post">
-  <label for="titulo">Correo:</label>
-  <input type="text" name="Correo" value="" placeholder="Título del libro">
+  <label for="mail">Correo:</label>
+  <input type="text" name="mail" value="" placeholder="Correo del usuario">
   <br>
-  <label for="autor">Nombre:</label>
-  <input type="text" name="author" value="" placeholder="Autor del libro">
+  <label for="name">Nombre:</label>
+  <input type="text" name="name" value="" placeholder="Nombre del usuario">
   <br>
-  <label for="descripcion">rol:</label>
-  <input type="text" name="description" value="" placeholder="Descripcion">
+  <label for="rol">Rol:</label>
+  <input type="text" name="rol" value="" placeholder="Rol en el sistema">
+
+  <select name="rol-list">
+    {{#each roles}}
+    <option value={{this._id}}>{{this.description}}</option>
+    {{/each}}
+  </select>
+
+  {{#each roles}}
+    <input style="display:none" type="text" name=etapa[{{this.id-1}}] value="{{this.description}}">
+    <span name=part2[{{this.id-1}}] >{{this.description}}</span>
+  {{/each}}
+
+
   <br>
-  <label for="rating">sueldo</label>
-  <input type="number" name="rating" value="" placeholder="Calificación">
+  <label for="rating">Sueldo</label>
+  <input type="number" name="salary" value="" placeholder="Sueldo mensual del usuario">
   <br>
   <button type="submit" name="button">Guardar</button>
 </form>
