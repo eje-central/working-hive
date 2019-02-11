@@ -1,0 +1,27 @@
+<h1>Agregar nuevo usuario</h1>
+<form action="/user/add" method="post">
+  <label for="mail">Correo:</label>
+  <input type="text" name="username" value="" placeholder="Correo del usuario">
+  <br>
+  <label for="name">Nombre:</label>
+  <input type="text" name="name" value="" placeholder="Nombre del usuario">
+  <br>
+  <label for="rol">Rol:</label> 
+  <select name="rol-list">
+    {{#each roles}}
+    <option value={{this._id}}>{{this.description}}</option>
+    {{/each}}
+  </select>
+ 
+  <br>
+  <label for="rating">Sueldo</label>
+  <input type="number" name="salary" value="" placeholder="Sueldo mensual del usuario">
+  <br>
+  <button type="submit" name="button">Guardar</button>
+</form>
+{{#if message}}
+<div class="error-message">
+  {{message}}
+</div>
+{{/if}}
+       

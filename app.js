@@ -8,20 +8,26 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-const session      = require('express-session')
-const bcrypt       = require('bcrypt')
-const passport     = require('passport')
-const LocalStrategy = require('passport-local').Strategy
-const User         = require('./models/user')
-const flash        = require('connect-flash')
+const session      = require('express-session');
+const bcrypt       = require('bcrypt');
+const passport     = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const User         = require('./models/user');
+const flash        = require('connect-flash'); 
 
 mongoose
-  .connect('mongodb://localhost/eje-central', {useNewUrlParser: true})
+  //.connect('mongodb://localhost/eje-central', {useNewUrlParser: true})
+  .connect(
+    "mongodb://ejecentral:ejecentral@clustercdmx-shard-00-00-wysw9.gcp.mongodb.net:27017,clustercdmx-shard-00-01-wysw9.gcp.mongodb.net:27017,clustercdmx-shard-00-02-wysw9.gcp.mongodb.net:27017/test?ssl=true&replicaSet=ClusterCDMX-shard-0&authSource=admin&retryWrites=true",
+    { useNewUrlParser: true }
+  )
   .then(x => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+    console.log(
+      `Connected to Mongo! Database name: "${x.connections[0].name}"`
+    );
   })
   .catch(err => {
-    console.error('Error connecting to mongo', err)
+    console.error("Error connecting to mongo", err);
   });
 
 const app_name = require('./package.json').name;
@@ -79,8 +85,15 @@ app.use(require('node-sass-middleware')({
   sourceMap: true
 }));
       
-
+// var hbs = exphbs.create({
+//   extname: ".hbs",
+//   partialsDir: ["views/commons/", "views/"]
+// });
+//app.engine("hbs", hbs.engine);
+//app.engine('handlebars', exphbs({ defaultLayout: 'layout' }));
+hbs.registerPartials(__dirname + "/views/commons");
 app.set('views', path.join(__dirname, 'views'));
+
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
@@ -90,12 +103,14 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 // default value for title local
 app.locals.title = 'Bienvenido - Eje Central Corp.';
 
- 
-
+  
 const index = require("./routes/index");
 app.use("/", index);
 
 const authRoutes = require("./routes/auth-routes");
 app.use("/", authRoutes);
+
+const usersRoutes = require("./routes/users");
+app.use("/", usersRoutes);
 
 module.exports = app;

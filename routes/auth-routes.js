@@ -3,25 +3,49 @@ const authRoutes = express.Router();
 const zxcvbn = require("zxcvbn");
 const passport = require("passport");
 const ensureLogin = require("connect-ensure-login");
-
-const User = require('../models/user')
+const nodemailer = require("nodemailer");
+const User = require('../models/user');
 
 const bcrypt = require('bcrypt')
-const bcryptSalt = 10
+const bcryptSalt = 10;
+
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "workinghivenotifier@gmail.com",
+//     pass: "Enero.2019"
+//   }
+// });
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.ionos.mx",
+  port: 465,
+  auth: {
+    user: "sistema@ejecentral.studio",
+    pass: "R-UNuw8TZn5MpaC"
+  }
+});
+
+const mailOptions = (nombre,correo) => ({
+  from: "sistema@ejecentral.studio",
+  to: correo,
+  subject: "Working Hive",
+  text: `Bienvenido al sistema ${nombre}!`
+});
 
 authRoutes.get('/signup', (req, res, next) => {
   res.render('auth/signup')
 })
 
 authRoutes.post('/signup', (req, res, next) => {
-  const username = req.body.username
+  const username = req.body.username;
   const password = req.body.password
-  const name= req.body.name
-  if (username == "" || password == "") {
-    res.render('auth/signup', {
-      message: 'Indica un nombre de usuario y contraseña'
-    })
-    return
+  const name= req.body.name 
+  if (username == "" || username == "") {
+    res.render("auth/signup", {
+      message: "Indica un nombre de usuario y contraseña"
+    });
+    return;
   }
   if (zxcvbn(password).score < 1) {
     res.render('auth/signup', {
@@ -33,34 +57,49 @@ authRoutes.post('/signup', (req, res, next) => {
   User.findOne({ username })
     .then(user => {
       if (user !== null) {
-        res.render('auth/signup', {
-          message: 'El usuario ingresado ya existe'
-        })
-        return
+        res.render("auth/signup", {
+          message: `El usuario ${username} ya existe`
+        });
+        return;
       }
 
-      const salt = bcrypt.genSaltSync(bcryptSalt)
-      const hashPass = bcrypt.hashSync(password, salt)
+      const salt = bcrypt.genSaltSync(bcryptSalt);
+      const hashPass = bcrypt.hashSync(password, salt);
 
       const newUser = new User({
         username,
         name,
         password: hashPass
-      })
+      });
 
-      newUser.save((err) => {
+      newUser.save(err => {
         if (err) {
-          res.render('auth/signup', {
-            message: 'Algo salió mal y no pude guardar tu registro. Inténtalo de nuevo mas tarde'
-          })
+          res.render("auth/signup", {
+            message:
+              "Algo salió mal al guardar el usuario. Inténtalo de nuevo mas tarde"
+          });
         } else {
-          res.redirect('/')
+          transporter.sendMail(mailOptions(name, username), function(
+            error,
+            info
+          ) {
+            if (error) {
+              console.log(error);
+              res.render("auth/signup", {
+                message:
+                  "Algo salió mal al enviar el correo. Inténtalo de nuevo mas tarde"
+              });
+            } else {
+              console.log("Email sent: " + info.response);
+            }
+          });
+          res.redirect("/private-page");
         }
-      })
+      });
     })
     .catch(error => {
-      next(error)
-    })
+      next(error);
+    });
 })
 
 authRoutes.get('/login', (req, res, next) => {
@@ -82,4 +121,33 @@ authRoutes.get('/logout', (req, res, next) => {
   req.logout()
   res.redirect('login')
 })
+
+authRoutes.get('/private-mess', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('not-assigned', { user: req.user })
+})
+
+authRoutes.get('/reportes', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('reportes', { user: req.user })
+})
+
+authRoutes.get('/trabajadores', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('trabajadores', { user: req.user })
+})
+
+authRoutes.get('/trabajadores-detalle', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('detalle-trabajador', { user: req.user })
+})
+
+authRoutes.get('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('nuevo', { user: req.user })
+})
+
+authRoutes.get('/home', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('dashboard', { user: req.user })
+})
+
+authRoutes.get('/proyecto', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('detalle-proyecto', { user: req.user })
+})
+
 module.exports = authRoutes

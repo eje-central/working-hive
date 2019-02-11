@@ -1,0 +1,75 @@
+{{#if user}}
+  <nav class="navbar is-fixed-top is-dark navbar-start" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/home">
+        <img src="../images/panal.png" width="28" height="28">
+      </a>
+  
+      <div class="navbar-item dropdown">
+        <div class="dropdown-trigger">
+          <button class="button is-warning is-hidden-tablet" aria-haspopup="true" aria-controls="dropdown-menu">
+            <span>Menú</span>
+            <span class="icon is-small">
+              <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu" role="menu">
+          <div class="dropdown-content">
+            <a href="nuevo" class="dropdown-item">
+              Proyecto nuevo
+            </a>
+            <a class="dropdown-item">
+              Organización
+            </a>
+            <a href="reportes" class="dropdown-item">
+              Reportes
+            </a>
+            <a href="#" class="dropdown-item">
+              Perfil
+            </a>
+            <a href="#" class="dropdown-item">
+              SideQuests
+            </a>
+            <a href="/users" class="navbar-item">
+              Administrar usuarios
+            </a>
+            <hr class="dropdown-divider">
+            <a href="/logout" class="dropdown-item">
+              Log out
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a href="nuevo" class="navbar-item">
+          Proyecto nuevo
+        </a>
+        <a class="navbar-item">
+          Organización
+        </a>
+        <a href="reportes" class="navbar-item">
+          Reportes
+        </a>
+        <a href="#" class="navbar-item">
+          Perfil
+        </a>
+        <a href="#" class="navbar-item">
+          SideQuests
+        </a>
+        <a href="/users" class="navbar-item">
+          Administrar usuarios
+        </a>
+      </div>
+      <div class="navbar-item navbar-end">
+        <div class="buttons">
+          <a class="button is-warning" href="/logout">
+            <strong>Log out</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+{{/if}}
