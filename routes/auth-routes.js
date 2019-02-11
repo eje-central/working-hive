@@ -5,6 +5,7 @@ const passport = require("passport");
 const ensureLogin = require("connect-ensure-login");
 const nodemailer = require("nodemailer");
 const User = require('../models/user');
+const Proyecto = require('../models/proyecto');
 
 const bcrypt = require('bcrypt')
 const bcryptSalt = 10;
@@ -141,12 +142,58 @@ authRoutes.get('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
   res.render('nuevo', { user: req.user })
 })
 
+authRoutes.post('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  const {nombre, descripcion, dineros, fechaInicio, fechaFin, etapa} = req.body;
+  const color = 'is-warning';
+
+  Proyecto.findOne({nombre})
+  .then(nom => {
+    if (nom !== null) {
+      res.render('nuevo', {message: 'El nombre del proyecto ya existe. Intenta poner uno nuevo'});
+      return;
+    }
+  
+
+  const proyectoNuevo = new Proyecto ({
+    nombre, 
+    descripcion, 
+    etapas:etapa, 
+    dineros, 
+    fechaInicio, 
+    fechaFin, 
+    color
+  });
+
+    proyectoNuevo.save((err) => {
+      if (err) {
+        res.render('nuevo', {message: 'Algo salió mal'})
+      } else {
+        res.redirect('/home')
+      }
+    });
+  })
+    .catch (error => {
+      next(error)
+    })
+  });
+
+
+
 authRoutes.get('/home', ensureLogin.ensureLoggedIn(), (req, res, next) => {
-  res.render('dashboard', { user: req.user })
+
+  Proyecto.find()
+  //.populate('username')
+  .then (proyectos => {
+    res.render('dashboard', { user: req.user, proyectos })
+    console.log(proyectos)
+  })
+  .catch((err) => {console.log(err)})
 })
 
 authRoutes.get('/proyecto', ensureLogin.ensureLoggedIn(), (req, res, next) => {
   res.render('detalle-proyecto', { user: req.user })
 })
+
+
 
 module.exports = authRoutes

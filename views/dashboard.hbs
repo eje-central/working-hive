@@ -5,153 +5,40 @@
   
   </div>
   </section>
-  
-  <div class="height">
-  <div class="separado">
-  <div class="box columns is-vcentered">
-    <div class="column">
-      <label class="label">Juego</label>
-    </div>
-    <div class="column">
-      <div class="tags are-large has-background-grey is-centered box">
-        <div class="modal">
-          <div class="modal-background"><</div>
-          <div class="modal-content is-clipped">
-            <h1>Prueba</h1>
+
+  <section class="height separado">
+       {{#each proyectos}}
+      <div>
+        <div class="box columns is-vcentered">
+          <div class="column">
+            <label class="label">{{this.nombre}}</label>
           </div>
-          <button class="modal-close is-large"></button>
+          <div class="column">
+            <div class="tags are-medium has-background-grey is-centered box" id="tags">
+              
+              <div class="modal">
+                <div class="modal-background"><</div>
+                  <div class="modal-content is-clipped">
+                    <div class="box">
+                      {{#each etapas}}
+                      <a class="button is-warning is-outlined">Asingar responsable</a>
+                      <span class=" button is-small tag {{tagColor color}} showModal">{{this}}</span>
+                      {{/each}}
+                    </div>
+                  </div>
+                  <button class="modal-close is-large"></button>
+                </div>
+                {{#each etapas}}
+                <span class=" button is-small tag {{tagColor color}} showModal">{{this}}</span>
+                {{/each}}
+              </div>
+              
+            </div>
+          </div>
         </div>
-        <span class=" button tag is-primary" id="showModal">PLANEACIÓN</span>
-        <span class="tag is-warning">VALIDACIÓN</span>
-        <span class="tag is-white">DISEÑO</span>
-        <span class="tag is-danger">PRODUCCIÓN</span>
-        <span class="tag is-info">ENTREGA</span>
-      </div>
+       {{/each}}
     </div>
-  </div>
-    <div class="box columns is-vcentered">
-    <div class="column">
-      <label class="label">Juego</label>
-    </div>
-    <div class="column">
-      <div class="tags are-large has-background-grey is-centered  box">
-        <span class="tag is-primary">PLANEACIÓN</span>
-        <span class="tag is-warning">VALIDACIÓN</span>
-        <span class="tag is-white">DISEÑO</span>
-        <span class="tag is-danger">PRODUCCIÓN</span>
-        <span class="tag is-info">ENTREGA</span>
-      </div>
-    </div>
-  </div>
-
-    <div class="box columns is-vcentered">
-    <div class="column">
-      <label class="label">Juego</label>
-    </div>
-    <div class="column">
-      <div class="tags are-large has-background-grey is-centered box">
-        <span class="tag is-primary">PLANEACIÓN</span>
-        <span class="tag is-warning">VALIDACIÓN</span>
-        <span class="tag is-white">DISEÑO</span>
-        <span class="tag is-danger">PRODUCCIÓN</span>
-        <span class="tag is-info">ENTREGA</span>
-      </div>
-    </div>
-  </div>
-
-    <div class="box columns is-vcentered">
-    <div class="column">
-      <label class="label">Juego</label>
-    </div>
-    <div class="column">
-      <div class="tags are-large  is-centered has-background-grey box">
-        <span class="tag is-primary">PLANEACIÓN</span>
-        <span class="tag is-warning">VALIDACIÓN</span>
-        <span class="tag is-white">DISEÑO</span>
-        <span class="tag is-danger">PRODUCCIÓN</span>
-        <span class="tag is-info">ENTREGA</span>
-      </div>
-    </div>
-  </div>
-
-    <div class="box columns is-vcentered">
-    <div class="column">
-      <label class="label">Juego</label>
-    </div>
-    <div class="column">
-      <div class="tags are-large  is-centered has-background-grey box">
-        <span class="tag is-primary">PLANEACIÓN</span>
-        <span class="tag is-warning">VALIDACIÓN</span>
-        <span class="tag is-white">DISEÑO</span>
-        <span class="tag is-danger">PRODUCCIÓN</span>
-        <span class="tag is-info">ENTREGA</span>
-      </div>
-    </div>
-  </div>
-
-    <div class="box columns is-vcentered">
-    <div class="column">
-      <label class="label">Juego</label>
-    </div>
-    <div class="column">
-      <div class="tags are-large  is-centered has-background-grey box">
-        <span class="tag is-primary">PLANEACIÓN</span>
-        <span class="tag is-warning">VALIDACIÓN</span>
-        <span class="tag is-white">DISEÑO</span>
-        <span class="tag is-danger">PRODUCCIÓN</span>
-        <span class="tag is-info">ENTREGA</span>
-      </div>
-    </div>
-  </div>
-
-    <div class="box columns is-vcentered">
-    <div class="column">
-      <label class="label">Juego</label>
-    </div>
-    <div class="column">
-      <div class="tags are-large  is-centered has-background-grey box">
-        <span class="tag is-primary">PLANEACIÓN</span>
-        <span class="tag is-warning">VALIDACIÓN</span>
-        <span class="tag is-white">DISEÑO</span>
-        <span class="tag is-danger">PRODUCCIÓN</span>
-        <span class="tag is-info">ENTREGA</span>
-      </div>
-    </div>
-  </div>
-
-    <div class="box columns is-vcentered">
-    <div class="column">
-      <label class="label">Juego</label>
-    </div>
-    <div class="column">
-      <div class="tags are-large  is-centered has-background-grey box">
-        <span class="tag is-primary">PLANEACIÓN</span>
-        <span class="tag is-warning">VALIDACIÓN</span>
-        <span class="tag is-white">DISEÑO</span>
-        <span class="tag is-danger">PRODUCCIÓN</span>
-        <span class="tag is-info">ENTREGA</span>
-      </div>
-    </div>
-  </div>
-      <div class="box columns is-vcentered">
-    <div class="column">
-      <label class="label">Juego</label>
-    </div>
-    <div class="column">
-      <div class="tags are-large  is-centered has-background-grey box">
-        <span class="tag is-primary">PLANEACIÓN</span>
-        <span class="tag is-warning">VALIDACIÓN</span>
-        <span class="tag is-white">DISEÑO</span>
-        <span class="tag is-danger">PRODUCCIÓN</span>
-        <span class="tag is-info">ENTREGA</span>
-      </div>
-    </div>
-  </div>
-
-
-  </div>
-
-    
+  </section>
 
   <div class="separados">
     <div class="box">
@@ -199,6 +86,5 @@
       <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
     </div>
   </div>
-  </div>
-  
+
 </body>

@@ -1,33 +1,81 @@
 <body id="inside">
-  <h3>Módulo usuarios {{{user.name}}}</h3>
+  <article class="message is-warning">
+  <div class="message-header">
+    <p>{{{user.name}}}, bienvenido al módulo para administrar usuarios</p>
+  </div>
+</article>
+
+<a class="button is-dark" href="/user/add">Agregar usuario</a>
+<a class="button" href="/home">Página principal</a>  
+<br>
+<br>
+
   {{#if user}}
 
   {{#if users}}
+  <div class="columns is-mobile has-text-centered">
+    <div class="column is-hidden-touch">
+     <strong> Correo </strong>
+    </div>
+    <div class="column">
+     <strong> Nombre </strong>
+    </div>
+    <div class="column">
+     <strong> Rol </strong>
+    </div>
+    <div class="column is-hidden-touch">
+     <strong> Sueldo </strong>
+    </div>
+    <div class="column is-hidden-touch">
+     <strong> Fecha alta </strong>
+    </div>
+    <div class="column">
+     <strong> PM </strong>
+    </div>
+    <div class="column">
+
+    </div>
+  </div>
+  
   <table>
-    <tr>
-      <td>Correo</td>
-      <td>Nombre</td>
-      <td>Rol</td>
-      <td>Sueldo</td>
-      <td>Fecha alta</td>
-      <td>PM</td>
-      <td></td>
-    </tr>
+
     {{#each users}}
-    <tr>
-      <td>{{this.correo}}</td>
-      <td>{{this.name}}</td>
-      <td>{{this.rol_id}} </td> 
-      <td>{{this.sueldo}}</td>
-      <td>{{this.created_at}}</td>
-      <td><input type="checkbox" name="PM" value="PM"></td>
-      <td><input type="button" name="Eliminar" value="Eliminar"></td>
-    </tr>
-    {{/each}}
-  </table> 
-  <a href="/user/add">Agregar usuario</a>
+    <div class="columns is-mobile has-text-centered">
+      <div class="column is-hidden-touch">
+        {{this.correo}}
+      </div>
+      <div class="column">
+        {{this.name}}
+      </div>
+      <div class="column">
+        {{this.rol_id}}
+      </div>
+      <div class="column is-hidden-touch">
+        {{this.sueldo}}
+      </div>
+      <div class="column is-hidden-touch">
+        {{this.created_at}}
+      </div>
+      <div class="column">
+        <div class="field">
+          <input id="switchRoundedWarning" type="checkbox" name="switchRoundedWarning" class="switch is-rounded is-warning" checked="checked">
+          <label for="switchRoundedWarning"></label>
+        </div>
+      </div>
+      <div class="column">
+        <a class="button is-danger is-outlined is-rounded is-small" >
+          <span class="icon is-small">
+            <i class="fas fa-times"></i>
+          </span>
+        </a>
+      </div>
+    </div>
+    
+      {{/each}}
+     
+  
   {{/if}}
   <br>
-  <a href="/">Página principal</a>
+  
   {{/if}}
 </body>

@@ -11,10 +11,14 @@ dropdown.addEventListener('click', function(event) {
   dropdown.classList.toggle('is-active');
 });
 
-$("#showModal").click(function() {
+$(".showModal").click(function() {
   $(".modal").addClass("is-active");  
 });
 
 $(".modal-close").click(function() {
    $(".modal").removeClass("is-active");
 });
+
+
+
+
