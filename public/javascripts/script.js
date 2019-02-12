@@ -35,10 +35,6 @@ document.addEventListener(
     $("#showModal").click(function() {
       $(".modal").addClass("is-active");
     });
- 
-    const restUsersApi = axios.create({
-      baseURL: "http://localhost:3000/user/delete/"
-    });
 
     function deleteUser(id) {
       axios
@@ -62,10 +58,22 @@ document.addEventListener(
           pm: $("#pm").prop("checked")
         })
         .then(responseFromAPI => {
-          console.log("Response from API is:", responseFromAPI);
-          $(".modal").removeClass("is-active");
-          $("#modal-guardar").removeClass("is-loading");
-          window.location.href = "/users";
+          console.log(
+            "Response from API is:",
+            responseFromAPI,
+            responseFromAPI.data.message
+          );
+          if (responseFromAPI.data.success===false){
+            alert(responseFromAPI.data.message);
+            $("#modal-guardar-usuario").removeClass("is-loading");
+          }
+          else{
+              alert('El usuario se agregó correctamente')          
+              $(".modal").removeClass("is-active");
+            $("#modal-guardar-usuario").removeClass("is-loading");
+              window.location.href = "/users";
+              }
+          
         })
         .catch(err => {
           console.log(err);
@@ -73,7 +81,7 @@ document.addEventListener(
     }
     $(".eliminar-usuario").click(function() {
       $(".modal").addClass("is-active");
-      $("#modal-guardar").attr("style", "display: none");
+      $("#modal-guardar-usuario").attr("style", "display: none");
       $("#modal-eliminar").attr("style", "display: block");
       $(".modal-card-title").html("Eliminar usuario");
       $(".modal-card-body").html(
@@ -89,15 +97,29 @@ document.addEventListener(
 
     $("#btnAgregarUsuario").click( function () {
       $(".modal").addClass("is-active");
-      $("#modal-guardar").attr("style", "display: block");
+      $("#modal-guardar-usuario").attr("style", "display: block");
       $("#modal-eliminar").attr("style", "display: none");
       $(".modal-card-title").html("Agregar nuevo usuario"); 
       $(".modal-card-body").html($("#nuevoUsuario").html());
     });
-    $("#modal-guardar").click(function () { 
-      $("#modal-guardar").addClass("is-loading");
+    $("#modal-guardar-usuario").click(function () {  
+      if ($("#username").val().trim() == "" || $("#name").val().trim() == "" || $("#salary").val().trim()=="" ) {
+        alert("Debes de llenar todos los campos para guardar el nuevo usuario")
+        return;
+      }
+      $("#modal-guardar-usuario").addClass("is-loading");
       addUser();
     });
+
+    $(".editar-usuario").click(function () { 
+      $(".modal").addClass("is-active");
+      $("#modal-guardar-usuario").attr("style", "display: block");
+      $("#modal-eliminar").attr("style", "display: none");
+      $(".modal-card-title").html("Editar usuario");
+      $(".modal-card-body").html($("#nuevoUsuario").html());
+
+    });
+
   },
   false
 );

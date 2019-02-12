@@ -1,34 +1,36 @@
 <body id="inside">
-
-  <h3>Módulo usuarios {{{user.name}}}</h3>
   {{#if user}}
 
   {{#if users}}
   <table >
-    <tr >
-      <td>Correo</td>
-      <td>Nombre</td>
-      <td>Rol</td>
-      <td>Sueldo</td>
-      <td>Fecha alta</td>
-      <td>PM</td>
-      <td></td>
-    </tr>
-    {{#each users}}
-    <tr>
-      <td>{{this.username}}</td>
-      <td class="{{this._id}}">{{this.name}}</td>
-      <td>{{this.rol_id}} </td> 
-      <td>{{this.salary}}</td>
-      <td>{{this.created_at}}</td>
-      <td><input type="checkbox" name="PM" value="PM" {{#if this.pm }} checked{{/if}} disabled=true></td>
-      <td>
-        <input type="button" id="{{this._id}}" class="eliminar-usuario button is-danger" value="Eliminar">
-        <input type="button" id="{{this._id}}" class="editar-usuario button is-danger" value="Editar">
-        <ion-icon name="create"></ion-icon>
-      </td>
-    </tr>
-    {{/each}}
+    <thead>
+      <tr>
+        <th>Correo</th>
+        <th>Nombre</th>
+        <th>Rol</th>
+        <th>Sueldo</th>
+        <th>Fecha alta</th>
+        <th>PM</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+          {{#each users}}
+          <tr>
+            <td>{{this.username}}</td>
+            <td class="{{this._id}}">{{this.name}}</td>
+            <td> ROLL {{this.rol_id}} </td>
+            <td>{{this.salary}}</td>
+            <td>{{this.created_at}}</td>
+            <td><input type="checkbox" name="PM" value="PM" {{#if this.pm }} checked{{/if}} disabled=true></td>
+            <td>
+              <input type="button" id="{{this._id}}" class="eliminar-usuario button is-danger" value="Eliminar">
+              <input type="button" id="{{this._id}}" class="editar-usuario button is-danger" value="Editar">
+              <ion-icon name="create"></ion-icon>
+            </td>
+          </tr>
+          {{/each}}
+    </tbody>
   </table> 
   <input type="text" style="display: none" value="" id="userToDelete"> 
   <input type="button" class="button is-success" value="Agregar usuario" id="btnAgregarUsuario">
@@ -47,30 +49,67 @@
         <!-- Content ... -->
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" id="modal-guardar">Guardar</button>
+        <button class="button is-success" id="modal-guardar-usuario">Guardar</button>
         <button class="button is-danger" id="modal-eliminar">Eliminar</button>
         <button class="button cancel" >Cancelar</button>
       </footer>
     </div>
   </div>
-  <form action="/user/add" method="post" id="nuevoUsuario" style="display:none">
-    <label for="mail">Correo:</label>
-    <input type="text" name="username" id="username" value="" placeholder="Correo del usuario">
-    <br>
-    <label for="name">Nombre:</label>
-    <input type="text" name="name" id="name" value="" placeholder="Nombre del usuario">
-    <br>
-    <label for="rol">Rol:</label>
-    <select name="rol-list" id="rol-list">
-      {{#each roles}}
-      <option value={{this._id}}>{{this.description}}</option>
-      {{/each}}
-    </select>
-    <br>
-    <label for="PM">Project manager</label>
-    <input type="checkbox" name="pm" id="pm" checked=false>
-    <br>
-    <label for="rating">Sueldo</label>
-    <input type="number" name="salary" id="salary" value="" placeholder="Sueldo mensual del usuario">
+  <form action="/user/add" method="post" id="nuevoUsuario" style="display:none"> 
+    <div class="field">
+      <label class="label">Correo</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input" type="email" placeholder="Correo" name="username" id="username">
+        <span class="icon is-left">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span class="icon is-right">
+          <i class="fas fa-check"></i>
+        </span>
+      </div>
+    </div>  
+    <div class="field">
+      <label class="label">Nombre</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input" type="text" placeholder="Nombre" name="name" id="name">
+        <span class="icon is-left">
+          <i class="fas fa-user"></i>
+        </span>
+        <span class="icon is-right">
+          <i class="fas fa-check"></i>
+        </span>
+      </div>
+    </div>  
+    <div class="field">
+      <label class="label">Sueldo mensual</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input" type="text" placeholder="Sueldo mensual" name="salary" id="salary" >
+        <span class="icon is-left">
+          <i class="fas fa-credit-card"></i>
+        </span>
+        <span class="icon is-right">
+          <i class="fas fa-check"></i>
+        </span>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Tipo de usuario</label>
+      <div class="control">
+        <div class="select" name="rol-list" id="rol-list">
+          <select> 
+            {{#each roles}}
+            <option value={{this._id}}>{{this.description}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-checkbox">
+        <label class="checkbox">
+          <input type="checkbox" name="pm" id="pm">
+          Project manager
+        </label>
+    </div>
   </form>
 </body>
