@@ -143,7 +143,7 @@ document.addEventListener(
 
     document.getElementById("etapaBoton").onclick = function () {
       let etapa = document.getElementById('etapa');
-      let responsable = document.getElementById('respID');
+      let responsable = document.getElementById('resp');
       let text = etapa.value;
       let resp = responsable.value;
 
@@ -155,7 +155,7 @@ document.addEventListener(
 
       document.getElementById('etapa').value = "";
       document.getElementById('resp').value = "";
-      document.getElementById('respID').value = "";
+      // document.getElementById('respID').value = "";
       event.preventDefault();
 
       // agregarAPI(text);

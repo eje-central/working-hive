@@ -129,15 +129,35 @@ authRoutes.get('/private-mess', ensureLogin.ensureLoggedIn(), (req, res, next) =
 })
 
 authRoutes.get('/reportes', ensureLogin.ensureLoggedIn(), (req, res, next) => {
-  Proyecto.find({}, 'cotizacion')
+  Proyecto.find()
   .then(ingresos => {
-    var suma = 0;
+    var sumaIngresos = 0;
+    var datos = [];
+    var proyectos = [];
+    
     ingresos.forEach(element => {
-      suma = suma + element.cotizacion 
+      sumaIngresos = sumaIngresos + element.cotizacion 
+      datos.push(element.cotizacion)
+      pedo = element.nombre
+      p = pedo.toString()
+      proyectos.push(p)
     });
-    res.render('reportes', { user: req.user, suma })
+
+  User.find({}, 'salary')
+  .then(salary => {
+    var sumaSalarios = 0;
+    salary.forEach(element => {
+      sumaSalarios = sumaSalarios + (element.salary?element.salary:0)
+
+    });
+      res.render('reportes', { user: req.user, sumaIngresos, sumaSalarios, datos, proyectos})
+    })
   })
   .catch((err) => {console.log(err)})
+
+
+
+  
   
 })
 

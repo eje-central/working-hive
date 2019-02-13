@@ -60,20 +60,20 @@
           <select id="resp">
             <option>Persona responsable de la etapa</option>
             {{#each userses}}
-            <option  class="input resp" type="text">{{this.name}}</option>
+            <option  class="input resp" type="text" value="{{this._id}}">{{this.name}}</option>
             {{!-- <option id="resp" class="input" type="text" placeholder="Persona responsable de la etapa" value="{{this._id}}"> --}}
             {{/each}}
           </select>
         </div>
-        <div class="select">
+        {{!-- <div class="select">
           <select id="respID">
             <option>ID</option>
             {{#each userses}}
             <option  class="input resp" type="text">{{this._id}}</option>
             {{!-- <option id="resp" class="input" type="text" placeholder="Persona responsable de la etapa" value="{{this._id}}"> --}}
-            {{/each}}
-          </select>
-        </div>
+            {{!-- {{/each}} --}}
+          {{!-- </select> --}}
+        {{!-- </div>  --}}
           <div class="control">
             <br>
             <button id="etapaBoton" class="button is-small is-dark" >Agregar</button>
@@ -102,21 +102,3 @@
 
 
 
-{{!-- <script>
-  
-
-  document.getElementById("etapaBoton").onclick = function() {
-  
-  
-  let etapa = document.getElementById('etapa');
-  let text = etapa.value;
-  
-
-  let etapas = document.getElementById('tags');
-  etapas.innerHTML += `<span class="tag is-warning">${text}</span>`
-  etapas.innerHTML += `<input style="display:none" name="etapa" value="${text}">`
-
-  document.getElementById('etapa').value = "";
-  event.preventDefault();
- } 
-</script> --}}
