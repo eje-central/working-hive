@@ -8,7 +8,7 @@
 {{/if}}
   <br>
   <form action="/nuevo" method="POST">
-  <div class="box">
+  <div class="box has-background-white-ter">
     <div class="field">
       <label class="label">Nombre del proyecto</label>
       <div class="control has-icons-right">
@@ -48,23 +48,46 @@
   </div>
 </div>
 
+  
   <div class="columns">
+    <form >
     <div class="column is-half">
-      <label class="label">Etapas</label>
-       <input id="etapa" class="input" type="text" placeholder="Nombre de la etapa">
-        <div class="control">
-          <br>
-          <button id="etapaBoton" class="button is-small is-dark" >Agregar</button>
+      
+        <label class="label">Etapas</label>
+        <input id="etapa" class="input nomEtapa" type="text" placeholder="Nombre de la etapa">
+        <br><br>
+        <div class="select">
+          <select id="resp">
+            <option>Persona responsable de la etapa</option>
+            {{#each userses}}
+            <option  class="input resp" type="text">{{this.name}}</option>
+            {{!-- <option id="resp" class="input" type="text" placeholder="Persona responsable de la etapa" value="{{this._id}}"> --}}
+            {{/each}}
+          </select>
         </div>
-    </div>
+        <div class="select">
+          <select id="respID">
+            <option>ID</option>
+            {{#each userses}}
+            <option  class="input resp" type="text">{{this._id}}</option>
+            {{!-- <option id="resp" class="input" type="text" placeholder="Persona responsable de la etapa" value="{{this._id}}"> --}}
+            {{/each}}
+          </select>
+        </div>
+          <div class="control">
+            <br>
+            <button id="etapaBoton" class="button is-small is-dark" >Agregar</button>
+          </div>
+          
+      </div>
+    
     <div class="column is-half">
       <div id="tags" class="tags are-large is-centered">
-        
+       
       </div>
     </div>
+    </form>
   </div>
-
-
 
 <div class="field is-grouped">
   <div class="control">
@@ -79,8 +102,11 @@
 
 
 
-<script>
+{{!-- <script>
+  
+
   document.getElementById("etapaBoton").onclick = function() {
+  
   
   let etapa = document.getElementById('etapa');
   let text = etapa.value;
@@ -93,4 +119,4 @@
   document.getElementById('etapa').value = "";
   event.preventDefault();
  } 
-</script>
+</script> --}}

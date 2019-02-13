@@ -4,8 +4,12 @@ const Schema = mongoose.Schema
 const proyectoSchema = new Schema({
   nombre: String,
   descripcion: String,
-  etapas: Array, 
-  cotizacion: Number, 
+  etapas: {
+    nom: Array,
+    responsable: [ { type : Schema.Types.ObjectId, ref: 'User' } ]
+  },
+  cotizacion: Number,
+  pesos: String, 
   fechaInicio: Date,
   fechaFin: Date,
   color: String

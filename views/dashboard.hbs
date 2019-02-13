@@ -1,7 +1,7 @@
 <body class="inside">
   <section class="hero is-bold is-warning">
     <div class="hero-body titleDash">
-      <h1 class="title "> Mis proyectos </h1>
+      <h1 class="title "> Eje-Central </h1>
   
   </div>
   </section>
@@ -9,26 +9,25 @@
   <section class="height separado">
        {{#each proyectos}}
       <div>
-        <div class="box columns is-vcentered">
+        <div class="box columns has-background-white-ter is-vcentered">
           <div class="column">
-            <label class="label">{{this.nombre}}</label>
+            <a href="/home/{{this._id}}" class="label">{{this.nombre}}</a>
           </div>
           <div class="column">
-            <div class="tags are-medium has-background-grey is-centered box" id="tags">
+            <div class="tags are-medium has-background-warning is-centered box" id="tags">
               
               <div class="modal">
                 <div class="modal-background"><</div>
+                  {{!-- {{#each etapas.nom}} --}}
                   <div class="modal-content is-clipped">
                     <div class="box">
-                      {{#each etapas}}
-                      <a class="button is-warning is-outlined">Asingar responsable</a>
-                      <span class=" button is-small tag {{tagColor color}} showModal">{{this}}</span>
-                      {{/each}}
+                      <span class=" button is-small tag {{tagColor color}} showModal">El total del proyecto se cotizó por: ${{this.pesos}}</span>
                     </div>
                   </div>
+                  {{!-- {{/each}} --}}
                   <button class="modal-close is-large"></button>
                 </div>
-                {{#each etapas}}
+                {{#each etapas.nom}}
                 <span class=" button is-small tag {{tagColor color}} showModal">{{this}}</span>
                 {{/each}}
               </div>
@@ -40,49 +39,49 @@
     </div>
   </section>
 
-  <div class="separados">
-    <div class="box">
+  <div class="separados has-background-grey-white-ter">
+    <div class="box has-text-white-bis has-background-grey">
+      <label class="label has-text-white-bis">Problemas con el proyecto 10</label>
+      <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
+    </div>
+
+    <div class="box has-text-white-bis has-background-grey">
+      <label class="label has-text-white-bis">Problemas con el proyecto 10</label>
+      <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
+    </div>
+
+        <div class="box has-text-white-bis has-background-grey">
+      <label class="label has-text-white-bis">Problemas con el proyecto 10</label>
+      <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
+    </div>
+
+        <div class="box has-text-white-bis has-background-grey">
       <label class="label">Problemas con el proyecto 10</label>
       <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
     </div>
 
-    <div class="box">
-      <label class="label">Problemas con el proyecto 10</label>
+        <div class="box has-text-white-bis has-background-grey">
+      <label class="label has-text-white-bis">Problemas con el proyecto 10</label>
       <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
     </div>
 
-        <div class="box">
-      <label class="label">Problemas con el proyecto 10</label>
+        <div class="box has-text-white-bis has-background-grey">
+      <label class="label has-text-white-bis">Problemas con el proyecto 10</label>
       <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
     </div>
 
-        <div class="box">
-      <label class="label">Problemas con el proyecto 10</label>
+        <div class="box has-text-white-bis has-background-grey">
+      <label class="label has-text-white-bis">Problemas con el proyecto 10</label>
       <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
     </div>
 
-        <div class="box">
-      <label class="label">Problemas con el proyecto 10</label>
+        <div class="box has-text-white-bis has-background-grey">
+      <label class="label has-text-white-bis">Problemas con el proyecto 10</label>
       <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
     </div>
 
-        <div class="box">
-      <label class="label">Problemas con el proyecto 10</label>
-      <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
-    </div>
-
-        <div class="box">
-      <label class="label">Problemas con el proyecto 10</label>
-      <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
-    </div>
-
-        <div class="box">
-      <label class="label">Problemas con el proyecto 10</label>
-      <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
-    </div>
-
-        <div class="box">
-      <label class="label">Problemas con el proyecto 10</label>
+        <div class="box has-text-white-bis has-background-grey">
+      <label class="label has-text-white-bis">Problemas con el proyecto 10</label>
       <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
     </div>
   </div>

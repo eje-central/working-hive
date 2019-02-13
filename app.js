@@ -90,9 +90,13 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.set('view engine', 'hbs');
 hbs.registerHelper("tagColor", function(color) {
-  let a = ['is-black', 'is-dark', 'is-light', 'is-link', 'is-success', 'is-warning', 'is-white', 'is-info', 'is-danger', 'is-primary']
+  let a = ['is-black', 'is-dark', 'is-light', 'is-link', 'is-success',  'is-white', 'is-info', 'is-danger', 'is-primary']
   color = a[Math.floor(Math.random()*a.length)];
   return color
+});
+hbs.registerHelper("moneda", function(cotizacion) {
+  let pesos = new Intl.NumberFormat().format(cotizacion);
+  return pesos
 });
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
