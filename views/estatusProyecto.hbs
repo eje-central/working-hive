@@ -1,0 +1,53 @@
+
+<br>
+<br>
+<div class="columns">
+  <div class="column has-text-centered">
+    <p class="title"><strong> {{proyecto.nombre}} </strong></p>
+    <p>{{proyecto.descripcion}}</p>
+  </div>
+</div>
+  
+<div class="tile is-ancestor">
+  <div class="tile is-parent is-vertical is-2">
+    <div class="tile">
+      <div class="tile is-parent is-vertical">
+      </div>
+    </div>
+  </div>
+  <div class="tile is-vertical is-1">
+    {{#each proyecto.etapas.responsable}}
+    <div class="tile">
+      <div class="tile is-parent is-vertical">
+        <article class="tile is-child box">
+          <figure class="image is-64x64">
+            <img class="is-rounded" src="../images/emmanuel.jpg">
+            <p class="is-title has-text-centered">  {{this.name}} </p>
+          </figure>
+        </article>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  <div class="tile is-parent">
+    <div class="tile is-vertical is-7">
+      {{#each proyecto.etapas.nom}}
+      <div class="tile">
+        <div class="tile is-parent is-vertical">
+          <article class="tile is-child box">
+            <h2 class="tag is-medium {{tagColor color}}">{{this}}</h2>
+          </article>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column has-text-centered">
+    <div class="tag">
+      <h3>Ingreso total por ${{proyecto.pesos}}</h3>
+    </div>
+  </div>
+</div>

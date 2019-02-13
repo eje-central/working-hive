@@ -43,7 +43,7 @@ app.use(cookieParser());
 app.use(session({
   secret: 'ñlasldkalskdalkdngnggnadseeqw13',
   resave: true,
-  saveUnitialized: true
+  saveUninitialized: true
 }))
 passport.serializeUser((user, callback) => {
   callback(null, user._id)
@@ -89,6 +89,15 @@ hbs.registerPartials(__dirname + "/views/commons");
 app.set('views', path.join(__dirname, 'views'));
 
 app.set('view engine', 'hbs');
+hbs.registerHelper("tagColor", function(color) {
+  let a = ['is-black', 'is-dark', 'is-light', 'is-link', 'is-success',  'is-white', 'is-info', 'is-danger', 'is-primary']
+  color = a[Math.floor(Math.random()*a.length)];
+  return color
+});
+hbs.registerHelper("moneda", function(cotizacion) {
+  let pesos = new Intl.NumberFormat().format(cotizacion);
+  return pesos
+});
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 

@@ -1,3 +1,8 @@
+@charset "utf-8";
+@import '../../node_modules/bulma/bulma.sass';
+@import '../../node_modules/bulma-switch/src/sass/index.sass';
+// @import '../../node_modules/bulma-badge/src/sass/index.sass';
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -63,7 +68,7 @@ html {
   flex-direction: column;
 }
 .separados {
-  height: 18vh;
+  height: 23vh;
   display: flex;
   overflow-y: auto;
   flex-direction: column;
