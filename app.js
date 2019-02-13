@@ -84,13 +84,7 @@ app.use(require('node-sass-middleware')({
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
-      
-// var hbs = exphbs.create({
-//   extname: ".hbs",
-//   partialsDir: ["views/commons/", "views/"]
-// });
-//app.engine("hbs", hbs.engine);
-//app.engine('handlebars', exphbs({ defaultLayout: 'layout' }));
+       
 hbs.registerPartials(__dirname + "/views/commons");
 app.set('views', path.join(__dirname, 'views'));
 

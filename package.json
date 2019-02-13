@@ -29,6 +29,8 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-config-google": "^0.12.0",
     "nodemon": "^1.12.1"
   }
 }
