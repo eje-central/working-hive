@@ -177,6 +177,11 @@ document.addEventListener(
 //     });
 //  }
 
+  window.onload = function() {
+    mensaje = decodeURIComponent(window.location.search)
+    document.getElementById('mensaje').innerHTML = mensaje.substring(60,3);
+
+  }
 
 
   },

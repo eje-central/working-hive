@@ -1,23 +1,25 @@
-{{#if message}}
+{{!-- {{#if message}}
 <article class="message is-warning">
   <div class="message-header">
-    <p>{{ message }}</p>
+    <p id="mensaje">{{ message }}</p>
   </div>
   
 </article>
-{{/if}}
+{{/if}} --}}
+<article class="message is-warning">
+  <p id="mensaje" class="message-header"></p>
+</article>
   <br>
   <form action="/nuevo" method="POST">
   <div class="box has-background-white-ter">
     <div class="field">
       <label class="label">Nombre del proyecto</label>
       <div class="control has-icons-right">
-        <input class="input is-success" type="text" placeholder="Ingresa un nombre creativo" name="nombre">
+        <input class="input" type="text" placeholder="Ingresa un nombre creativo" name="nombre">
         <span class="icon is-small is-right">
           <i class="fas fa-check"></i>
         </span>
       </div>
-      <p class="help is-success">El nombre del proyecto está disponible</p>
     </div>
 
     <div class="field">

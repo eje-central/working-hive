@@ -6,6 +6,7 @@ const ensureLogin = require("connect-ensure-login");
 const nodemailer = require("nodemailer");
 const User = require('../models/user');
 const Proyecto = require('../models/proyecto');
+const moment = require('moment')
 
 
 const bcrypt = require('bcrypt')
@@ -134,14 +135,46 @@ authRoutes.get('/reportes', ensureLogin.ensureLoggedIn(), (req, res, next) => {
     var sumaIngresos = 0;
     var datos = [];
     var proyectos = [];
+    var etap = [];
+    var enTiempo = 0;
+    var atrasados = 0;
+    var adelantados = 0;
+    const now = new Date();
+
     
+    function onlyUnique (value, index, self) {
+      return self.indexOf(value) === index;
+    }
+
     ingresos.forEach(element => {
+    
+      if(moment(element.fechaFin).isAfter(now)) {
+        enTiempo = enTiempo + 1
+      } else {
+        atrasados = atrasados + 1
+      }
+
       sumaIngresos = sumaIngresos + element.cotizacion 
       datos.push(element.cotizacion)
+
       pedo = element.nombre
       p = pedo.toString()
       proyectos.push(p)
+
+      element.etapas.forEach(el => {
+        et = el.nom[0]
+        console.log(et)
+        etap.push(et)
+      })
+
     });
+
+    console.log(etap)
+  
+
+    var uniqueEtapas = etap.filter(onlyUnique);
+
+    console.log(uniqueEtapas)
 
   User.find({}, 'salary')
   .then(salary => {
@@ -150,15 +183,15 @@ authRoutes.get('/reportes', ensureLogin.ensureLoggedIn(), (req, res, next) => {
       sumaSalarios = sumaSalarios + (element.salary?element.salary:0)
 
     });
-      res.render('reportes', { user: req.user, sumaIngresos, sumaSalarios, datos, proyectos})
+    var promedio = 0
+    if(sumaIngresos !== 0) {
+      promedio = sumaIngresos/proyectos.length;
+    }
+      
+      res.render('reportes', { user: req.user, sumaIngresos, sumaSalarios, datos, proyectos, promedio, ingresos, enTiempo, atrasados, adelantados, uniqueEtapas})
     })
   })
   .catch((err) => {console.log(err)})
-
-
-
-  
-  
 })
 
 authRoutes.get('/trabajadores', ensureLogin.ensureLoggedIn(), (req, res, next) => {
@@ -170,11 +203,11 @@ authRoutes.get('/trabajadores-detalle', ensureLogin.ensureLoggedIn(), (req, res,
 })
 
 authRoutes.get('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
-  
   User.find()
   .populate('users')
   .then (userses => {
-    res.render('nuevo', { user: req.user, userses })
+    
+    res.render('nuevo', { user: req.user, userses})
   })
   .catch((err) => {console.log(err)})
 })
@@ -198,31 +231,60 @@ authRoutes.post('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
   const color = 'is-warning';
   const pesos = new Intl.NumberFormat().format(dineros)
   const mayus = nombre.toUpperCase();
-  console.log("--------->",pesos)
-  Proyecto.findOne({nombre})
+  var ets = [];
+
+  console.log('VALOR INICIAL------>',ets)
+
+
+  Proyecto.findOne({'nombre': mayus})
   .then(nom => {
+    console.log(nom)
     if (nom !== null) {
-      res.render('nuevo', {message: 'El nombre del proyecto ya existe. Intenta poner uno nuevo'});
+      res.redirect('/nuevo?e=' + encodeURIComponent('El nombre del proyecto ya existe. Intenta poner uno nuevo'));
       return;
     }
+
+    function etapas(nombre, respon) {
+      return {
+        nom: nombre,
+        responsable: respon,
+        tareas: [],
+        finalizada: 'false'
+      }
+    }
+    console.log(etapa)
+     if (etapa !== undefined && Array.isArray(etapa)) {
+      for(var e = 0; e < etapa.length; e++){
+        ets.push(etapas(etapa[e],resp[e]))
+      } 
+     } else if (etapa !== undefined) {
+        ets.push(etapas(etapa,resp))
+    } else if (etapa == undefined) {
+        res.redirect('/nuevo?e=' + encodeURIComponent('El proyecto debe de contar por lo menos con una etapa'));
+        return
+    }
+    
 
   const proyectoNuevo = new Proyecto ({
     nombre:mayus, 
     descripcion, 
-    etapas:{
-      nom:etapa,
-      responsable:resp
-    }, 
+    etapas: ets, 
     cotizacion:dineros,
     pesos, 
     fechaInicio, 
     fechaFin, 
-    color
+    color,
+    finalizado: 'false'
   });
 
+  if (mayus == "" || descripcion == "" || ets == [] || dineros == 0 || pesos == "" || fechaInicio == "" || fechaFin == "") {
+    res.redirect('/nuevo?e=' + encodeURIComponent('Favor de completar todos los campos'));
+    return;
+  }
+  console.log(proyectoNuevo)
     proyectoNuevo.save((err) => {
       if (err) {
-        res.render('nuevo', {message: 'Algo salió mal'})
+        res.redirect('nuevo?e=' + encodeURIComponent('Por alguna razón no se pudo guardar el nombre. Intenta más tarde'))
       } else {
         res.redirect('/home')
       }
@@ -239,7 +301,13 @@ authRoutes.get('/home/:id', ensureLogin.ensureLoggedIn(), (req, res) => {
   .populate('etapas.responsable')
   //aqui debería de ir el populate de tareas
   .then(proyecto => {
-    res.render('estatusProyecto', {user: req.user, proyecto})
+    let date = proyecto.fechaFin.toDateString();
+    let fecha = moment(date).format("MMM D YYYY");
+    
+
+
+    res.render('estatusProyecto', {user: req.user, proyecto, fecha})
+    console.log(fecha, "TEXTO INTERMEDIO", proyecto);
   })
   .catch ((err) => {console.log(err)})
 })
