@@ -83,14 +83,14 @@
   <div class="tile is-parent is-12">
     <div class="tile is-child box">
       <p class="title">Estadísticas por etapas</p>
-        {{#each uniqueEtapas}}
+        {{#each uniqueRes}}
           <div class="box has-text-centered has-background-warning">
             <div class="columns">
               <div class="column">
-                {{this}}
+                {{this.nom}}
               </div>
               <div class="column">
-                20 días
+                ${{moneda this.gen}}
               </div>
             </div>
           </div>
