@@ -63,19 +63,19 @@
             <option>Persona responsable de la etapa</option>
             {{#each userses}}
             <option  class="input resp" type="text" value="{{this._id}}">{{this.name}}</option>
-            {{!-- <option id="resp" class="input" type="text" placeholder="Persona responsable de la etapa" value="{{this._id}}"> --}}
             {{/each}}
           </select>
         </div>
-        {{!-- <div class="select">
-          <select id="respID">
-            <option>ID</option>
-            {{#each userses}}
-            <option  class="input resp" type="text">{{this._id}}</option>
-            {{!-- <option id="resp" class="input" type="text" placeholder="Persona responsable de la etapa" value="{{this._id}}"> --}}
-            {{!-- {{/each}} --}}
-          {{!-- </select> --}}
-        {{!-- </div>  --}}
+
+        <div class="select">
+          <select id="grado">
+            <option>Grado de importancia al proyecto</option>
+            <option  class="input resp" type="number" value="1">Bajo</option>
+            <option  class="input resp" type="number" value="2">Medio</option>
+            <option  class="input resp" type="number" value="3">Alto</option>
+          </select>
+        </div>
+
           <div class="control">
             <br>
             <button id="etapaBoton" class="button is-small is-dark" >Agregar</button>

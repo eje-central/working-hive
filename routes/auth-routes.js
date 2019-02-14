@@ -169,12 +169,11 @@ authRoutes.get('/reportes', ensureLogin.ensureLoggedIn(), (req, res, next) => {
 
     });
 
-    console.log(etap)
-  
-
     var uniqueEtapas = etap.filter(onlyUnique);
 
-    console.log(uniqueEtapas)
+    uniqueEtapas.forEach(unique => {
+      
+    })
 
   User.find({}, 'salary')
   .then(salary => {
@@ -227,13 +226,12 @@ authRoutes.get('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
 // })  
 
 authRoutes.post('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
-  const {nombre, descripcion, dineros, fechaInicio, fechaFin, etapa, resp} = req.body;
+  const {nombre, descripcion, dineros, fechaInicio, fechaFin, etapa, resp, grado} = req.body;
   const color = 'is-warning';
   const pesos = new Intl.NumberFormat().format(dineros)
   const mayus = nombre.toUpperCase();
   var ets = [];
 
-  console.log('VALOR INICIAL------>',ets)
 
 
   Proyecto.findOne({'nombre': mayus})
@@ -244,18 +242,19 @@ authRoutes.post('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
       return;
     }
 
-    function etapas(nombre, respon) {
+    function etapas(nombre, respon, grado) {
       return {
         nom: nombre,
         responsable: respon,
         tareas: [],
-        finalizada: 'false'
+        finalizada: 'false', 
+        grado: grado
       }
     }
-    console.log(etapa)
+    console.log(grado)
      if (etapa !== undefined && Array.isArray(etapa)) {
       for(var e = 0; e < etapa.length; e++){
-        ets.push(etapas(etapa[e],resp[e]))
+        ets.push(etapas(etapa[e],resp[e],grado[e]))
       } 
      } else if (etapa !== undefined) {
         ets.push(etapas(etapa,resp))
@@ -264,6 +263,20 @@ authRoutes.post('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
         return
     }
     
+   if (ets.length >= 0) {
+     var div = 0;
+     
+
+     ets.forEach(etapaProyecto => {
+      div = div + Number(etapaProyecto.grado)
+     })
+    
+     var d = dineros/div;
+     ets.forEach(etapaProyecto => {
+      etapaProyecto.genera = etapaProyecto.grado * d
+     }) 
+   } 
+
 
   const proyectoNuevo = new Proyecto ({
     nombre:mayus, 
@@ -281,7 +294,7 @@ authRoutes.post('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
     res.redirect('/nuevo?e=' + encodeURIComponent('Favor de completar todos los campos'));
     return;
   }
-  console.log(proyectoNuevo)
+
     proyectoNuevo.save((err) => {
       if (err) {
         res.redirect('nuevo?e=' + encodeURIComponent('Por alguna razón no se pudo guardar el nombre. Intenta más tarde'))
