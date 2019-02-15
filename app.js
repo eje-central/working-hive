@@ -14,6 +14,7 @@ const passport     = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User         = require('./models/user');
 const flash        = require('connect-flash'); 
+const MongoStore = require("connect-mongo")(session);
 
 mongoose
   //.connect('mongodb://localhost/eje-central', {useNewUrlParser: true})
@@ -43,7 +44,8 @@ app.use(cookieParser());
 app.use(session({
   secret: 'ñlasldkalskdalkdngnggnadseeqw13',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,    
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
 }))
 passport.serializeUser((user, callback) => {
   callback(null, user._id)

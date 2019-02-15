@@ -7521,3 +7521,53 @@ table th.r {
     content: " "; } }
 
 /*# sourceMappingURL=style.css.map */
+
+ #row-vimeo-bg-video {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.et_pb_text_0 {
+    margin-top: 80px!important;
+    margin-bottom: 10px!important;
+}
+.et_pb_text>:last-child {
+    padding-bottom: 0;
+} 
+.et_pb_text_inner {
+    position: relative; 
+}
+.et_pb_module {
+    -webkit-animation-timing-function: linear;
+    -moz-animation-timing-function: linear;
+    -o-animation-timing-function: linear;
+    animation-timing-function: linear;
+}
+.et_pb_text_align_center {
+    text-align: center;
+} 
+
+.et_pb_module{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.et_pb_text{
+   word-wrap: break-word;
+}
+.et_pb_text_inner h2{
+  font-family: 'museo-sans',"Open Sans",Arial,sans-serif;
+  vertical-align: baseline;
+  margin-top: 300px;
+  font-size: 65px;
+  font-weight: bold;
+  line-height: 1.2;
+  color: #fff!important;
+}
+.et_pb_text_inner h1{
+   color: #fff!important;
+}
