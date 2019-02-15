@@ -122,7 +122,7 @@ authRoutes.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res, next) =
 
 authRoutes.get('/logout', (req, res, next) => {
   req.logout()
-  res.redirect('login')
+  res.redirect('/')
 })
 
 authRoutes.get('/private-mess', ensureLogin.ensureLoggedIn(), (req, res, next) => {

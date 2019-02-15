@@ -2,8 +2,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const rolSchema = new Schema({
-  _id: Number,
+  //_id: Number,
   description: String, 
+  admin: Number,
 }, {
     timestamps: {
       createdAt: "created_at", updatedAt: "updated_at"
