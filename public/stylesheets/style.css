@@ -7435,6 +7435,9 @@ html {
 .is-horizontal-center {
   justify-content: center; }
 
+.is-horizontal-center {
+  justify-content: center; }
+
 table {
   border-spacing: 1;
   border-collapse: collapse;
