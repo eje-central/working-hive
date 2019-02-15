@@ -1,43 +1,93 @@
-<body id="inside">
+<body class="inside" id="inside">
   {{#if user}}
-
   {{#if users}}
-  <table >
-    <thead>
-      <tr>
-        <th>Correo</th>
-        <th>Nombre</th>
-        <th>Rol</th>
-        <th>Sueldo</th>
-        <th>Fecha alta</th>
-        <th>PM</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
+  <section class="hero is-bold is-warning">
+    <div class="hero-body titleDash">
+      <h1 class="title "> Usuarios activos </h1>
+    </div>
+  </section>
+
+  <div class="tile is-parent is-12">
+    <div class="tile is-child box"> 
+      <table class="is-parent">
+        <thead>
+          <tr>
+            <th>
+              <div class="box  has-background-warning">
+              <div class="columns has-text-centered">
+                  <p class="subtitle">Correo </p>
+              </div>
+            </div>
+            </th>
+            <th><div class="box  has-background-warning">
+              <div class="columns has-text-centered">
+                <p class="subtitle">Nombre</p>
+              </div></th>
+            <th><div class="box  has-background-warning">
+              <div class="columns has-text-centered">
+                <p class="subtitle">Rol </p>
+              </div></th>
+            <th><div class="box  has-background-warning">
+              <div class="columns has-text-centered">
+                <p class="subtitle">Sueldo </p>
+              </div></th>
+            {{!-- <th>Fecha alta</th> --}}
+            <th style="text-align: center"><div class="box  has-background-warning">
+              <div class="columns has-text-centered">
+                <p class="subtitle">Project Manager </p>
+              </div></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
           {{#each users}}
           <tr>
             <td>{{this.username}}</td>
             <td class="{{this._id}}">{{this.name}}</td>
-            <td> {{this.rol}} </td>
-            <td>{{this.salary}}</td>
-            <td>{{this.created_at}}</td>
-            <td><input type="checkbox" name="PM" value="PM" {{#if this.pm }} checked{{/if}} disabled=true></td>
-            <td>
-              <input type="button" id="{{this._id}}" class="eliminar-usuario button is-danger" value="Eliminar">
-              <input type="button" id="{{this._id}}" class="editar-usuario button is-danger" value="Editar">
-              <ion-icon name="create"></ion-icon>
+            <td> {{this.rol.[0].description}}</td>
+            <td>${{this.salary}}</td>
+            {{!-- <td>{{ this.created_at}}</td> --}}
+            <td style="text-align: center"><input type="checkbox" name="PM" value="PM" {{#if this.pm }} checked{{/if}}
+                disabled=true></td>
+            <td style="text-align: center">
+              {{!-- <input type="button" id="{{this._id}}" class="eliminar-usuario button is-danger is-outlined" value="Eliminar"> --}}
+              {{!-- <input type="button"  class="editar-usuario button is-link is-outlined" value="Editar"> --}}
+              <a id="{{this._id}}" class="editar-usuario button is-link is-outlined">
+                <span class="icon is-small"> 
+                <i class="fas fa-user-edit"></i>
+                </span>
+              </a>
+              <a id="{{this._id}}" class="eliminar-usuario button is-danger is-outlined">
+                <span class="icon is-small">
+                  <i class="far fa-trash-alt"></i>
+                </span>
+              </a>
             </td>
           </tr>
           {{/each}}
-    </tbody>
-  </table> 
-  <input type="text" style="display: none" value="" id="userToDelete"> 
-  <input type="button" class="button is-success" value="Agregar usuario" id="btnAgregarUsuario">
+        </tbody>
+      </table>
+      <input type="text" style="display: none" value="" id="userToDelete">
+      <div class="columns is-mobile is-centered">
+        <div class="column is-half is-centered" style="width: 250px">
+          {{!-- <i class="fas fa-user-plus"></i>
+          <input type="button" class="button is-success is-outlined is-fullwidth" value="Agregar usuario" id="btnAgregarUsuario">--}}
+          <a id="btnAgregarUsuario" class="button is-dark is-outlined is-fullwidth"> 
+            <span class="icon is-small">
+              <i class="fas fa-user-plus"></i>
+            </span>
+            <span>Agregar usuario</span>
+          </a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
   {{/if}}
-  <br>
-  <a href="/">Página principal</a>
-  {{/if}} 
+  {{/if}}
+
+
+  
   <div class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
@@ -51,6 +101,7 @@
       <footer class="modal-card-foot">
         <button class="button is-success" id="modal-guardar-usuario">Guardar</button>
         <button class="button is-danger" id="modal-eliminar">Eliminar</button>
+        <button class="button is-success" id="modal-actualizar">Actualizar</button>
         <button class="button cancel" >Cancelar</button>
       </footer>
     </div>
