@@ -408,6 +408,10 @@ authRoutes.get('/proyecto', ensureLogin.ensureLoggedIn(), (req, res, next) => {
   res.render('detalle-proyecto', { user: req.user })
 })
 
+authRoutes.get('/perfil', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  res.render('perfil', { user: req.user })
+})
+
 
 
 module.exports = authRoutes

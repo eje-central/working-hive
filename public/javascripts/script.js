@@ -1,8 +1,6 @@
 document.addEventListener(
   "DOMContentLoaded",
-  () => {
-    //console.log("IronGenerator JS imported successfully!");
-
+  () => { 
     function getAll(selector) {
       return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
     }
@@ -38,16 +36,34 @@ document.addEventListener(
 
     function deleteUser(id) {
       axios
-        .delete("/user/delete/"+id)
-        .then(responseFromAPI => {
-          console.log("Response from API is: ", responseFromAPI.data);
+        .delete(`/user/delete/${id}`)
+        .then(responseFromAPI => { 
           $(".modal").removeClass("is-active");
-          window.location.href = "/users";
+          window.location.href = "/usuarios";
         })
         .catch(err => {
           console.log("Error is: ", err);
         });
     }
+
+    function getUserData(id) {
+      axios.get(`/user/${id}`)
+        .then(res => {  
+          if(res.data.success){
+            $("#username").val(res.data.user.username);
+            $("#name").val(res.data.user.name);
+            $(`#rol`).val(res.data.user.rol[0]); 
+            $("#salary").val(res.data.user.salary);
+            $("#pm").prop("checked", res.data.user.pm); 
+          }else{
+            alert("Error al obtener datos del usuario");
+          }
+        })
+        .catch(err => {
+          console.log('Error is: ', err);
+        })
+    }
+
     function addUser(){
       axios
         .post("/user/add", {
@@ -57,12 +73,7 @@ document.addEventListener(
           salary: $("#salary").val(),
           pm: $("#pm").prop("checked")
         })
-        .then(responseFromAPI => {
-          console.log(
-            "Response from API is:",
-            responseFromAPI,
-            responseFromAPI.data.message
-          );
+        .then(responseFromAPI => { 
           if (responseFromAPI.data.success===false){
             alert(responseFromAPI.data.message);
             $("#modal-guardar-usuario").removeClass("is-loading");
@@ -71,7 +82,7 @@ document.addEventListener(
               alert('El usuario se agregó correctamente')          
               $(".modal").removeClass("is-active");
             $("#modal-guardar-usuario").removeClass("is-loading");
-              window.location.href = "/users";
+              window.location.href = "/usuarios";
               }
           
         })
@@ -79,9 +90,11 @@ document.addEventListener(
           console.log(err);
         });
     }
+
     $(".eliminar-usuario").click(function() {
       $(".modal").addClass("is-active");
       $("#modal-guardar-usuario").attr("style", "display: none");
+      $("#modal-actualizar").attr("style", "display: none");
       $("#modal-eliminar").attr("style", "display: block");
       $(".modal-card-title").html("Eliminar usuario");
       $(".modal-card-body").html(
@@ -99,27 +112,62 @@ document.addEventListener(
       $(".modal").addClass("is-active");
       $("#modal-guardar-usuario").attr("style", "display: block");
       $("#modal-eliminar").attr("style", "display: none");
+      $("#modal-actualizar").attr("style", "display: none");
       $(".modal-card-title").html("Agregar nuevo usuario"); 
       $(".modal-card-body").html($("#nuevoUsuario").html());
     });
     $("#modal-guardar-usuario").click(function () {  
-      if ($("#username").val().trim() == "" || $("#name").val().trim() == "" || $("#salary").val().trim()=="" ) {
-        alert("Debes de llenar todos los campos para guardar el nuevo usuario")
-        return;
+      if(validaInputsUser()){
+        $("#modal-guardar-usuario").addClass("is-loading");
+        addUser();
       }
-      $("#modal-guardar-usuario").addClass("is-loading");
-      addUser();
+      
     });
-
+    function validaInputsUser() {
+      if ($("#username").val().trim() == "" || $("#name").val().trim() == "" || $("#salary").val().trim() == "") {
+        alert("Debes de llenar todos los campos para guardar el nuevo usuario")
+        return false;
+      }
+      return true;
+    }
     $(".editar-usuario").click(function () { 
-      $(".modal").addClass("is-active");
-      $("#modal-guardar-usuario").attr("style", "display: block");
+      $("#modal-guardar-usuario").attr("style", "display: none");
       $("#modal-eliminar").attr("style", "display: none");
+      $("#modal-actualizar").attr("style", "display: block");
+
+      $("#modal-actualizar").addClass("is-loading");
+      getUserData(this.id);
+      $("#modal-actualizar").removeClass("is-loading");
+      $(".modal").addClass("is-active");  
       $(".modal-card-title").html("Editar usuario");
       $(".modal-card-body").html($("#nuevoUsuario").html());
-
     });
-
+    $("#modal-actualizar").click(function () {
+      if (validaInputsUser()) { 
+        updateUser();
+      }
+      
+    })
+    function updateUser() {
+      axios.put("/user/update",{
+        username: $("#username").val(),
+        name: $("#name").val(),
+        rol: $("#rol").val(),
+        salary: $("#salary").val(),
+        pm: $("#pm").prop("checked")
+      })
+      .then(res =>{ 
+        if (res.data.success){
+          alert(`El usuario ` +$("#username").val()+` se actualizó correctamente`);
+          window.location.href = "/usuarios";
+        }else{
+          alert("Error al actualizar intentalo mas tarde");
+        }
+      })
+      .catch(err =>{
+        alert("Error al actualizar intentalo mas tarde");
+      })
+    }
 
     $(".showModal").click(function () {
       $(".modal").addClass("is-active");
@@ -185,7 +233,6 @@ document.addEventListener(
     document.getElementById('mensaje').innerHTML = mensaje.substring(60,3);
 
   }
-
 
   },
   false

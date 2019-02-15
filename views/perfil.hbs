@@ -1,0 +1,134 @@
+<body class="inside " id="inside">
+  <section class="hero is-bold is-warning">
+    <div class="hero-body titleDash">
+      <h1 class="title "> Mi perfil </h1>
+    </div>
+  </section>
+    <div class="tile is-parent is-12">
+      <div class="tile is-child box">
+        <div class="box columns has-background-white-ter is-vcentered">
+          <div class="column is-2 has-text-centered">
+            <div class="is-flex is-horizontal-center">
+              <figure class="image is-64x64 ">
+                <img class="is-rounded is-centered" src="../images/emmanuel.jpg">
+              </figure>
+            </div>
+            <p class="has-text-centered"> {{user.name}}</p>
+          </div>
+          <div class="column is-10">
+            <div class="tags are-medium has-background-warning is-centered box" id="tags">
+              <div class="column box">
+                <article class=" is-child">
+                  <div class="field">
+                    
+                    <label class="label">Nombre</label>
+                    <div class="control has-icons-right">
+                      <input class="input" type="text" placeholder="Ingresa un nombre creativo" name="nombre" value="{{user.name}}">
+                      <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Correo</label>
+                    <div class="control has-icons-right">
+                      <input class="input" type="text" placeholder="Ingresa un correo" name="nombre" value="{{user.username}}">
+                      <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <a   class="cambiar-contraseña button is-dark is-outlined">
+                      <span>Cambiar contraseña</span>
+                    </a> 
+                  </div> 
+                    <article class="message is-dark" style="display: none;">
+                      <div class="message-body"> 
+                        <div class="field">
+                          <label class="label">Contraseña actual</label>
+                          <div class="control has-icons-right">
+                            <input class="input" type="password" placeholder="Ingresa contraseña actual" name="currentpwd" id="currentpwd" value="">
+                            <span class="icon is-small is-right">
+                              <i class="fas fa-check"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label">Nueva contraseña</label>
+                          <div class="control has-icons-right">
+                            <input class="input" type="password" placeholder="Ingresa nueva actual" name="newpwd" id="newpwd" value="">
+                            <span class="icon is-small is-right">
+                              <i class="fas fa-check"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <label class="label">Vuelve a escribir la contraseña nueva</label>
+                          <div class="control has-icons-right">
+                            <input class="input" type="password" placeholder="Vuelve a escribir la contraseña nueva" name="newpwd2" id="newpwd2" value="">
+                            <span class="icon is-small is-right">
+                              <i class="fas fa-check"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="control has-icons-right">
+                          <span>Se recomienda usar una contraseña segura que no uses para ningún otro sitio.</span>
+                        </div>
+                        <a class="guardar-contraseña button is-dark is-outlined" id="{{user._id}}">
+                          <span>Guardar</span>
+                        </a>
+                        <a class="cancelar-cambiar-contraseña button is-dark is-outlined">
+                          <span>Cancelar</span>
+                        </a>
+                      </div>  
+                    </article> 
+                  </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+<script>
+  $(document).ready(function () {
+     $(".cambiar-contraseña").click(function(){
+        $(".message").attr("style", "display: block");
+
+     })
+     $(".cancelar-cambiar-contraseña").click(function () {
+      $(".message").attr("style", "display: none");
+    })
+     $(".guardar-contraseña").click(function () {
+       if($("#newpwd").val()== $("#newpwd2").val()){
+         updatePassword(this.id);
+         $(".message").attr("style", "display: none");
+       }else{
+         alert("¡Las contraseñas no coinciden!")
+       }
+       
+    })
+    function updatePassword(id) { 
+      
+      axios.put("/user/updatePassword", {
+        currentpwd: $("#currentpwd").val(),
+        newpwd: $("#newpwd").val(),
+        userId: id
+      })
+        .then(resp => {
+          console.log(resp.data)
+          if (resp.data.success) {
+             
+          } else {
+            
+          }
+        })
+        .catch(err => {
+          
+        })
+    }
+  });
+
+  
+</script>

@@ -100,17 +100,27 @@ table {
 table * {
   position: relative;
 }
+table thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+table th {
+  padding-left: 8px;
+  vertical-align: middle !important;
+}
 table td,
 table th {
   padding-left: 8px;
 }
 table thead tr {
   height: 60px;
-  background: #ffed86;
+  //background: #ffed86;
   font-size: 16px;
 }
+
 table tbody tr {
-  height: 48px;
+  height: 15px;
   border-bottom: 1px solid #e3f1d5;
 }
 table tbody tr:last-child {
@@ -133,7 +143,7 @@ table th.r {
   text-align: center;
 }
 
-@media screen and (max-width: 35.5em) {
+@media screen and (max-width: 48em) {
   table {
     display: block;
   }
@@ -166,23 +176,35 @@ table th.r {
   }
   table tbody tr td:nth-child(1):before {
     content: "Correo";
+    background-color: #FFDA4B;
+    border-radius: 6px;
+    text-align: center;
   }
   table tbody tr td:nth-child(2):before {
     content: "Nombre";
+    background-color: #FFDA4B;
+    border-radius: 6px;
+    text-align: center;
   }
   table tbody tr td:nth-child(3):before {
     content: "Rol";
+    background-color: #FFDA4B;
+    border-radius: 6px;
+    text-align: center;
   }
   table tbody tr td:nth-child(4):before {
     content: "Sueldo";
-  }
+    background-color: #FFDA4B;
+    border-radius: 6px;
+    text-align: center;
+  } 
   table tbody tr td:nth-child(5):before {
-    content: "Fecha alta";
+    content: "PM";
+    background-color: #FFDA4B;
+    border-radius: 6px;
+    text-align: center;
   }
   table tbody tr td:nth-child(6):before {
-    content: "PM";
-  }
-  table tbody tr td:nth-child(7):before {
     content: " ";
   }
 }
