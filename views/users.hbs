@@ -19,7 +19,7 @@
           <tr>
             <td>{{this.username}}</td>
             <td class="{{this._id}}">{{this.name}}</td>
-            <td> {{this.rol_id}} </td>
+            <td> {{this.rol}} </td>
             <td>{{this.salary}}</td>
             <td>{{this.created_at}}</td>
             <td><input type="checkbox" name="PM" value="PM" {{#if this.pm }} checked{{/if}} disabled=true></td>
@@ -95,8 +95,8 @@
     <div class="field">
       <label class="label">Tipo de usuario</label>
       <div class="control">
-        <div class="select" name="rol-list" id="rol-list">
-          <select> 
+        <div class="select" >
+          <select name="rol" id="rol"> 
             {{#each roles}}
             <option value={{this._id}}>{{this.description}}</option>
             {{/each}}

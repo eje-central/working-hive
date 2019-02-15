@@ -21,16 +21,19 @@ catalogoRol.collection.drop();
 
 const roles = [
   {
-    _id: 1,
-    description: "Directivo"
+    //_id: 1,
+    description: "Directivo",
+    admin: 1
   },
   {
-    _id: 2,
-    description: "Gerente"
+    //_id: 2,
+    description: "Gerente",
+    admin: 2
   },
   {
-    _id: 3,
-    description: "Sub Gerente"
+    //_id: 3,
+    description: "Sub Gerente",
+    admin: 3
   }
 ];
 

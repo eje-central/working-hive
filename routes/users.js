@@ -17,7 +17,6 @@ authRoutes.get("/users", ensureLogin.ensureLoggedIn(), (req, res, next) => {
         .catch(err => {
           console.log(err);
         });
-      
     })
     .catch(err => {
       console.log(err)
@@ -27,7 +26,7 @@ authRoutes.get("/users", ensureLogin.ensureLoggedIn(), (req, res, next) => {
 
 authRoutes.get("/user/add", ensureLogin.ensureLoggedIn(), (req, res, next) => {
     Roles.find()
-      .populate("roles")
+      .populate("Roles")
       .then(roles => { 
         res.render("user-add", { user: req.user, roles });
       })
@@ -37,7 +36,7 @@ authRoutes.get("/user/add", ensureLogin.ensureLoggedIn(), (req, res, next) => {
 });
 
 authRoutes.post("/user/add", ensureLogin.ensureLoggedIn(), (req, res, next) => { 
-  const { username, name, rol_id, salary, pm } = req.body; 
+  const { username, name, rol, salary, pm } = req.body; 
   console.log(req.body);
   User.findOne({ username })
     .then(user => {
@@ -47,7 +46,8 @@ authRoutes.post("/user/add", ensureLogin.ensureLoggedIn(), (req, res, next) => {
           message: `El usuario ${username} ya existe`
         }); 
       }else{
-        const newUser = new User({ username, name, password: "", rol_id, salary, pm });
+        console.log("ROL_ID:", req.body)
+        const newUser = new User({ username, name, password: "", rol, salary, pm });
         newUser
           .save()
           .then(() => {
@@ -74,15 +74,25 @@ authRoutes.delete("/user/delete/:id",
 authRoutes.get("/user/update",
   ensureLogin.ensureLoggedIn(),
   (req, res, next) => {
-    User.find()
-      .populate("users")
-      .then(users => { 
-        res.render("users", { users, user: req.user });
+    // User.find()
+    //   .populate("users")
+    //   .then(users => { 
+    //     res.render("users", { users, user: req.user });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+
+    const { user, comments } = req.body;
+    User.update({ _id: req.query.user_id }, { $push: { reviews: { user, comments } } })
+      .then(user => {
+        //res.redirect('/users')
+        console.log(user);
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch((error) => {
+        console.log(error)
+      })
   }
 );
-
+ 
 module.exports = authRoutes;

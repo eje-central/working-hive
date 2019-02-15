@@ -53,7 +53,7 @@ document.addEventListener(
         .post("/user/add", {
           username: $("#username").val(),
           name: $("#name").val(),
-          rol_id: $("#rol").val(),
+          rol: $("#rol").val(),
           salary: $("#salary").val(),
           pm: $("#pm").prop("checked")
         })
