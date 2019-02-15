@@ -1,4 +1,4 @@
-{{#if user}}
+
   <nav class="navbar is-fixed-top is-dark navbar-start" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="/home">
@@ -16,23 +16,20 @@
         </div>
         <div class="dropdown-menu" id="dropdown-menu" role="menu">
           <div class="dropdown-content">
-            <a href="nuevo" class="dropdown-item">
+            <a href="/nuevo" class="dropdown-item">
               Proyecto nuevo
             </a>
-            <a class="dropdown-item">
-              Organización
-            </a>
-            <a href="reportes" class="dropdown-item">
+            <a href="/reportes" class="dropdown-item">
               Reportes
             </a>
-            <a href="#" class="dropdown-item">
+            <a href="/perfil" class="dropdown-item">
               Perfil
             </a>
             <a href="#" class="dropdown-item">
               SideQuests
             </a>
-            <a href="/users" class="navbar-item">
-              Administrar usuarios
+            <a href="/usuarios" class="navbar-item">
+              Administrar usuarios q
             </a>
             <hr class="dropdown-divider">
             <a href="/logout" class="dropdown-item">
@@ -44,22 +41,19 @@
     </div>
     <div class="navbar-menu">
       <div class="navbar-start">
-        <a href="nuevo" class="navbar-item">
+        <a href="/nuevo" class="navbar-item">
           Proyecto nuevo
         </a>
-        <a class="navbar-item">
-          Organización
-        </a>
-        <a href="reportes" class="navbar-item">
+        <a href="/reportes" class="navbar-item">
           Reportes
         </a>
-        <a href="#" class="navbar-item">
+        <a href="/perfil" class="navbar-item">
           Perfil
         </a>
         <a href="#" class="navbar-item">
           SideQuests
         </a>
-        <a href="/users" class="navbar-item">
+        <a href="/usuarios" class="navbar-item">
           Administrar usuarios
         </a>
       </div>
@@ -67,9 +61,8 @@
         <div class="buttons">
           <a class="button is-warning" href="/logout">
             <strong>Log out</strong>
-          </a>
+          </a> 
         </div>
       </div>
     </div>
   </nav>
-{{/if}}

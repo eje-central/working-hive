@@ -1,0 +1,79 @@
+<body class="has-background-white-ter">
+  
+
+<br>
+<br>
+<div class="tile is-ancestor">
+  <div class="tile is-parent is-vertical">
+    <div class="tile is-child has-text-centered box has-background-dark has-text-white">
+      <p class="title has-text-white">{{proyecto.nombre}}</p>
+      <p>{{proyecto.descripcion}}</p>
+    </div>
+  </div>
+  <div class="tile is-parent is-2 has-text-centered">
+    <div class="tile is-child box has-background-warning">
+      <p class="title">Entrega</p>
+      <p>{{fecha}}</p>
+    </div>
+  </div>
+</div>
+
+{{#each proyecto.etapas}}
+<div>
+  <div class="box columns has-background-white-ter is-vcentered">
+    <div class="column is-2 has-text-centered">
+      <div class="is-flex is-horizontal-center">
+        <figure class="image is-64x64 ">
+          <img class="is-rounded is-centered" src="../images/emmanuel.jpg">
+        </figure>
+      </div>
+      <p class="has-text-centered">  {{this.responsable.[0].name}} </p>
+    </div>
+    <div class="column is-10">
+      <div class="tags are-medium has-background-warning is-centered box" id="tags">
+        <div class="column box">
+          <article class=" is-child">
+            <h2 class="tag is-medium {{tagColor color}}">{{this.nom.[0]}}</h2>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
+
+
+
+{{!-- 
+  <div class="box columns has-background-white-ter is-vcentered">
+    {{#each proyecto.etapas}}
+    <div class="tile">
+      <div class="tile is-vertical">
+        <article class="tile is-child box">
+          <figure class="image is-64x64">
+            <img class="is-rounded" src="../images/emmanuel.jpg">
+            <p class="is-title has-text-centered">  {{this.responsable.[0].name}} </p>
+          </figure>
+                <div class="tile">
+        <div class="tile is-vertical">
+          <article class="tile is-child box">
+            <h2 class="tag is-medium {{tagColor color}}">{{this.nom.[0]}}</h2>
+          </article>
+        </div>
+      </div>
+        </article>
+      </div>
+    </div>
+    {{/each}}
+  </div> --}}
+
+
+<div class="columns">
+  <div class="column has-text-centered">
+    <div class="tag">
+      <h3>Ingreso total por ${{proyecto.pesos}}</h3>
+    </div>
+  </div>
+</div>
+
+</body>

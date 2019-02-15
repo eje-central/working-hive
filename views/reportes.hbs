@@ -1,84 +1,144 @@
-<body id="inside">
+<body class="has-background-white-ter" id="inside">
   <br>
-<div class="columns is-multiline is-mobile has-text-centered">
-  <div class="column is-half">
-
-  </div>
-  <div class="column is-half">
-    <div class="field has-addons">
-      <p class="control">
-        <a class="button is-dark">
-          <span>Mensual</span>
-        </a>
-      </p>
-      <p class="control">
-        <a class="button">
-          <span>Anual</span>
-        </a>
-      </p>
+  <div class="columns is-multiline is-mobile has-text-centered">
+    <div class="column is-half">
+    </div>
+    <div class="column is-half">
+      <div class="field has-addons">
+        <p class="control">
+          <a class="button is-dark">
+            <span>Mensual</span>
+          </a>
+        </p>
+        <p class="control">
+          <a class="button">
+            <span>Anual</span>
+          </a>
+        </p>
+      </div>
     </div>
   </div>
-  <div class="column is-half">
-    <h2><strong> Ingresos totales </strong></h2>
-  </div>
-  <div class="column is-half">
-    <h2><strong>Ingresos por proyecto</strong></h2>
-  </div>
-  <div class="column is-half">
-    <h3>$100,000</h3>
-  </div>
-  <div class="column is-half">
-  
-  </div>
-  <div class="column is-half">
-    <h2><strong> Pago de sueldos </strong></h2>
-  </div>  
-  <div class="column is-half">
-    
-  </div>   
-  <div class="column is-half">
-    <h3>$75,000</h3>
-  </div> 
-  <div class="column is-half">
-    
-  </div> 
-  <div class="column is-half">
-    <h2><strong> Productividad por empleado </strong></h2>
-  </div>  
-  <div class="column is-half">
-    <a class="button is-warning" href="/trabajadores-detalle"><strong> Ver detalle </strong></a>
-  </div> 
-    <div class="column is-half">
-    <h3>Proyectos en tiempo</h3>
-  </div> 
-  <div class="column is-half">
-    <h3>2</h3>
-  </div> 
-  <div class="column is-half">
-    <h3>Proyectos atrasados</h3>
-  </div> 
-  <div class="column is-half">
-    <h3>1</h3>
-  </div> 
-  <div class="column is-half">
-    <h3>Proyectos adelantados</h3>
-  </div> 
-  <div class="column is-half">
-    <h3>2</h3>
-  </div> 
-  <div class="column is-half">
-    <h2><strong> Tiempo promedio por etapas </strong></h2>
-  </div> 
-  <div class="column is-half">
-   
-  </div> 
-  <div class="column is-half">
-    <h3>Diseño</h3>
-  </div> 
-  <div class="column is-half">
-    <h3>20 días</h3>
-  </div> 
-</div>  
 
+  <div class="tile is-ancestor">
+    <div class="tile is-vertical is-parent is-1">
+    </div>
+    <div class="tile is-4 is-vertical is-parent">
+      <div class="tile is-child box">
+        <p class="title">Ingresos totales</p>
+        <p class="title"><strong class="has-text-link"> ${{moneda sumaIngresos}} </strong></p>
+        <p class="title">Sueldos pagados</p>
+        <p class="title"><strong class="has-text-danger"> ${{moneda sumaSalarios}} </strong></p>
+        <p class="title">Ingreso promedio por proyecto</p>
+        <p class="title"><strong class="has-text-info"> ${{moneda promedio}} </strong></p>
+      </div>
+      <div class="tile is-child box">
+        <p class="title">Productividad por empleado</p>
+        <a class="button is-warning is-flex" href="/trabajadores"><strong> Ver detalle </strong></a>
+        <br>
+        <br>
+      </div>
+    </div>
+    <div class="tile is-parent is-5">
+      <div class="tile is-vertical is-child box">
+        <p class="title is-mobile">Ingresos por proyecto</p>
+        <canvas id="myChart" class="is-1" width="5" height="5" style="width:5px; height: 5px"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="tile is-parent is-12">
+    <div class="tile is-child box">
+      <p class="title">Datos generales</p>
+        <div class="box has-text-centered has-background-warning">
+          <div class="columns">
+            <div class="column">
+              <p class="subtitle"> Proyectos en tiempo </p>
+            </div>
+            <div class="column">
+              {{enTiempo}}
+            </div>
+          </div>
+        </div>
+        <div class="box has-text-centered has-background-warning">
+          <div class="columns">
+            <div class="column">
+              <p class="subtitle"> Proyectos atrasados </p>
+            </div>
+            <div class="column">
+             {{atrasados}}
+            </div>
+          </div>
+        </div>
+        <div class="box has-text-centered has-background-warning">
+          <div class="columns">
+            <div class="column">
+             <p class="subtitle"> Proyectos adelantados </p>
+            </div>
+            <div class="column">
+             {{adelantados}}
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="tile is-parent is-12">
+    <div class="tile is-child box">
+      <p class="title">Estadísticas por etapas</p>
+        {{#each uniqueRes}}
+          <div class="box has-text-centered has-background-warning">
+            <div class="columns">
+              <div class="column">
+                {{this.nom}}
+              </div>
+              <div class="column">
+                ${{moneda this.gen}}
+              </div>
+            </div>
+          </div>
+      {{/each}}
+    </div>
+  </div>
+ 
+
+
+  <script>
+    window.onload = function () {
+  var ctx = document.getElementById("myChart");
+  var names = []
+
+  {{#each proyectos}}
+    names.push("{{this}}")
+  {{/each}}
+
+  function random_rgba() {
+      var o = Math.round, r = Math.random, s = 255;
+      return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
+  }
+
+  var color = [];
+  var border = [];
+
+  for (c = 1; c < {{proyectos.length}} + 1; c++) {
+    let rgb = random_rgba();
+    color.push(rgb);
+    border.push('rgba(160,160,160)')
+  }
+
+  var color2 = random_rgba();
+
+  var myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+          labels: names,
+          datasets: [{
+              label: 'Ingresos',
+              data: [{{datos}}],
+              backgroundColor: color,
+              borderColor: border,
+          }]
+      },
+      options: Chart.defaults.doughnut
+  });
+    }
+  </script>
 
 </body>

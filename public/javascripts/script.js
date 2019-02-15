@@ -1,8 +1,6 @@
 document.addEventListener(
   "DOMContentLoaded",
-  () => {
-    //console.log("IronGenerator JS imported successfully!");
-
+  () => { 
     function getAll(selector) {
       return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
     }
@@ -35,45 +33,68 @@ document.addEventListener(
     $("#showModal").click(function() {
       $(".modal").addClass("is-active");
     });
- 
-    const restUsersApi = axios.create({
-      baseURL: "http://localhost:3000/user/delete/"
-    });
 
     function deleteUser(id) {
       axios
-        .delete("/user/delete/"+id)
-        .then(responseFromAPI => {
-          console.log("Response from API is: ", responseFromAPI.data);
+        .delete(`/user/delete/${id}`)
+        .then(responseFromAPI => { 
           $(".modal").removeClass("is-active");
-          window.location.href = "/users";
+          window.location.href = "/usuarios";
         })
         .catch(err => {
           console.log("Error is: ", err);
         });
     }
+
+    function getUserData(id) {
+      axios.get(`/user/${id}`)
+        .then(res => {  
+          if(res.data.success){
+            $("#username").val(res.data.user.username);
+            $("#name").val(res.data.user.name);
+            $(`#rol`).val(res.data.user.rol[0]); 
+            $("#salary").val(res.data.user.salary);
+            $("#pm").prop("checked", res.data.user.pm); 
+          }else{
+            alert("Error al obtener datos del usuario");
+          }
+        })
+        .catch(err => {
+          console.log('Error is: ', err);
+        })
+    }
+
     function addUser(){
       axios
         .post("/user/add", {
           username: $("#username").val(),
           name: $("#name").val(),
-          rol_id: $("#rol").val(),
+          rol: $("#rol").val(),
           salary: $("#salary").val(),
           pm: $("#pm").prop("checked")
         })
-        .then(responseFromAPI => {
-          console.log("Response from API is:", responseFromAPI);
-          $(".modal").removeClass("is-active");
-          $("#modal-guardar").removeClass("is-loading");
-          window.location.href = "/users";
+        .then(responseFromAPI => { 
+          if (responseFromAPI.data.success===false){
+            alert(responseFromAPI.data.message);
+            $("#modal-guardar-usuario").removeClass("is-loading");
+          }
+          else{
+              alert('El usuario se agregó correctamente')          
+              $(".modal").removeClass("is-active");
+            $("#modal-guardar-usuario").removeClass("is-loading");
+              window.location.href = "/usuarios";
+              }
+          
         })
         .catch(err => {
           console.log(err);
         });
     }
+
     $(".eliminar-usuario").click(function() {
       $(".modal").addClass("is-active");
-      $("#modal-guardar").attr("style", "display: none");
+      $("#modal-guardar-usuario").attr("style", "display: none");
+      $("#modal-actualizar").attr("style", "display: none");
       $("#modal-eliminar").attr("style", "display: block");
       $(".modal-card-title").html("Eliminar usuario");
       $(".modal-card-body").html(
@@ -89,15 +110,132 @@ document.addEventListener(
 
     $("#btnAgregarUsuario").click( function () {
       $(".modal").addClass("is-active");
-      $("#modal-guardar").attr("style", "display: block");
+      $("#modal-guardar-usuario").attr("style", "display: block");
       $("#modal-eliminar").attr("style", "display: none");
+      $("#modal-actualizar").attr("style", "display: none");
       $(".modal-card-title").html("Agregar nuevo usuario"); 
       $(".modal-card-body").html($("#nuevoUsuario").html());
     });
-    $("#modal-guardar").click(function () { 
-      $("#modal-guardar").addClass("is-loading");
-      addUser();
+    $("#modal-guardar-usuario").click(function () {  
+      if(validaInputsUser()){
+        $("#modal-guardar-usuario").addClass("is-loading");
+        addUser();
+      }
+      
     });
+    function validaInputsUser() {
+      if ($("#username").val().trim() == "" || $("#name").val().trim() == "" || $("#salary").val().trim() == "") {
+        alert("Debes de llenar todos los campos para guardar el nuevo usuario")
+        return false;
+      }
+      return true;
+    }
+    $(".editar-usuario").click(function () { 
+      $("#modal-guardar-usuario").attr("style", "display: none");
+      $("#modal-eliminar").attr("style", "display: none");
+      $("#modal-actualizar").attr("style", "display: block");
+
+      $("#modal-actualizar").addClass("is-loading");
+      getUserData(this.id);
+      $("#modal-actualizar").removeClass("is-loading");
+      $(".modal").addClass("is-active");  
+      $(".modal-card-title").html("Editar usuario");
+      $(".modal-card-body").html($("#nuevoUsuario").html());
+    });
+    $("#modal-actualizar").click(function () {
+      if (validaInputsUser()) { 
+        updateUser();
+      }
+      
+    })
+    function updateUser() {
+      axios.put("/user/update",{
+        username: $("#username").val(),
+        name: $("#name").val(),
+        rol: $("#rol").val(),
+        salary: $("#salary").val(),
+        pm: $("#pm").prop("checked")
+      })
+      .then(res =>{ 
+        if (res.data.success){
+          alert(`El usuario ` +$("#username").val()+` se actualizó correctamente`);
+          window.location.href = "/usuarios";
+        }else{
+          alert("Error al actualizar intentalo mas tarde");
+        }
+      })
+      .catch(err =>{
+        alert("Error al actualizar intentalo mas tarde");
+      })
+    }
+
+    $(".showModal").click(function () {
+      $(".modal").addClass("is-active");
+    });
+
+    $(".modal-close").click(function () {
+      $(".modal").removeClass("is-active");
+    });
+
+    $(function () {
+      $("#resp").change(function () {
+        $("#respID")[0].selectedIndex = $(this)[0].selectedIndex;
+      });
+    });
+
+    $(function () {
+      $("#respID").change(function () {
+        $("#resp")[0].selectedIndex = $(this)[0].selectedIndex;
+      });
+    });
+
+    document.getElementById("etapaBoton").onclick = function () {
+      let etapa = document.getElementById('etapa');
+      let responsable = document.getElementById('resp');
+      let grado = document.getElementById('grado');
+      let text = etapa.value;
+      let resp = responsable.value;
+      let money = grado.value;
+
+
+      let etapas = document.getElementById('tags');
+      etapas.innerHTML += `<span class="tag is-warning">${text}</span>`
+      etapas.innerHTML += `<input style="display:none" name="etapa" value="${text}">`
+      etapas.innerHTML += `<input style="display:none" name="resp" value="${resp}">`
+      etapas.innerHTML += `<input style="display:none" type="number" name="grado" value="${money}">`
+
+      document.getElementById('etapa').value = "";
+      document.getElementById('resp').value = "";
+      document.getElementById('grado').value = "";
+      event.preventDefault();
+
+      // agregarAPI(text);
+    }
+
+//  function agregarAPI(etapa){
+//    let nuevaEtapa = {
+//      nombre:etapa,
+//      responsable:[]
+//    }
+//    console.log(nuevaEtapa);
+//    axios.post('http://localhost:3000/nuevo', nuevaEtapa)
+//     .then((response) => {
+//       console.log(response); 
+//         console.log(response.data);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+//  }
+
+  window.onload = function() {
+    mensaje = decodeURIComponent(window.location.search)
+    document.getElementById('mensaje').innerHTML = mensaje.substring(60,3);
+
+  }
+
   },
   false
 );
+
+

@@ -1,76 +1,106 @@
-<body class="inside">
+{{!-- {{#if message}}
+<article class="message is-warning">
+  <div class="message-header">
+    <p id="mensaje">{{ message }}</p>
+  </div>
+  
+</article>
+{{/if}} --}}
+<article class="message is-warning">
+  <p id="mensaje" class="message-header"></p>
+</article>
   <br>
-  <div class="box">
+  <form action="/nuevo" method="POST">
+  <div class="box has-background-white-ter">
     <div class="field">
       <label class="label">Nombre del proyecto</label>
       <div class="control has-icons-right">
-        <input class="input is-success" type="text" placeholder="Ingresa un nombre creativo" value="Working Hive">
+        <input class="input" type="text" placeholder="Ingresa un nombre creativo" name="nombre">
         <span class="icon is-small is-right">
           <i class="fas fa-check"></i>
         </span>
       </div>
-      <p class="help is-success">El nombre del proyecto está disponible</p>
     </div>
 
     <div class="field">
       <label class="label">Descripción del proyecto</label>
       <div class="control">
-        <textarea class="textarea" placeholder="Describe el proyecto a tus colaboradores de una manera clara"></textarea>
+        <textarea class="textarea" name="descripcion" placeholder="Describe el proyecto a tus colaboradores de una manera clara"></textarea>
       </div>
     </div>
 
     <div class="field">
       <label class="label">Cotización</label>
       <div class="control">
-        <input class="input" type="number" placeholder="Cantidad que ingresa por el proyecto">
+        <input class="input" name="dineros" type="number" placeholder="Cantidad que ingresa por el proyecto">
       </div>
     </div>
 
     <div class="field">
       <label class="label">Fecha de inicio</label>
       <div class="control">
-        <input class="input" type="date" placeholder="">
+        <input class="input" name="fechaInicio" type="date" placeholder="">
       </div>
     </div>
 
   <div class="field">
   <label class="label">Fecha de entrega</label>
   <div class="control">
-    <input class="input" type="date" placeholder="">
+    <input class="input" name="fechaFin" type="date" placeholder="">
   </div>
 </div>
 
-  <div class="field">
-    <label class="label">Nombre de la etapa</label>
-    <div class="control">
-      <input class="input" type="text" placeholder="Etapa" value="Producción">
-    </div>
-  </div>
-
+  
   <div class="columns">
+    <form >
     <div class="column is-half">
-      <label class="label">Etapas</label>
-       <input class="input" type="text" placeholder="">
-        <div class="control">
-          <br>
-          <button class="button is-small is-dark">Agregar</button>
+      
+        <label class="label">Etapas</label>
+        <input id="etapa" class="input nomEtapa" type="text" placeholder="Nombre de la etapa">
+        <br><br>
+        <div class="select">
+          <select id="resp">
+            <option>Persona responsable de la etapa</option>
+            {{#each userses}}
+            <option  class="input resp" type="text" value="{{this._id}}">{{this.name}}</option>
+            {{/each}}
+          </select>
         </div>
-    </div>
+
+        <div class="select">
+          <select id="grado">
+            <option>Grado de importancia al proyecto</option>
+            <option  class="input resp" type="number" value="1">Bajo</option>
+            <option  class="input resp" type="number" value="2">Medio</option>
+            <option  class="input resp" type="number" value="3">Alto</option>
+          </select>
+        </div>
+
+          <div class="control">
+            <br>
+            <button id="etapaBoton" class="button is-small is-dark" >Agregar</button>
+          </div>
+          
+      </div>
+    
     <div class="column is-half">
-      <div class="tags are-large is-centered">
-        <span class="tag is-warning">Diseño</span>
+      <div id="tags" class="tags are-large is-centered">
+       
       </div>
     </div>
+    </form>
   </div>
-
 
 <div class="field is-grouped">
   <div class="control">
-    <button class="button is-link">Finalizar</button>
+    <button class="button is-link" type="submit">Finalizar</button>
   </div>
   <div class="control">
-    <button class="button is-text">Cancelar</button>
+    <a href="/home" class="button is-text">Cancelar</a>
   </div>
 </div>
 </div>
-</body>
+</form>
+
+
+

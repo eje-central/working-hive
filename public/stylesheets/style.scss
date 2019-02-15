@@ -1,3 +1,8 @@
+@charset "utf-8";
+@import '../../node_modules/bulma/bulma.sass';
+@import '../../node_modules/bulma-switch/src/sass/index.sass';
+// @import '../../node_modules/bulma-badge/src/sass/index.sass';
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -63,7 +68,7 @@ html {
   flex-direction: column;
 }
 .separados {
-  height: 18vh;
+  height: 23vh;
   display: flex;
   overflow-y: auto;
   flex-direction: column;
@@ -77,3 +82,179 @@ html {
   justify-content: center;
 }
 
+.is-horizontal-center {
+  justify-content: center;
+}
+
+table {
+  border-spacing: 1;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+table * {
+  position: relative;
+}
+table thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+table th {
+  padding-left: 8px;
+  vertical-align: middle !important;
+}
+table td,
+table th {
+  padding-left: 8px;
+}
+table thead tr {
+  height: 60px;
+  //background: #ffed86;
+  font-size: 16px;
+}
+
+table tbody tr {
+  height: 15px;
+  border-bottom: 1px solid #e3f1d5;
+}
+table tbody tr:last-child {
+  border: 0;
+}
+table td,
+table th {
+  text-align: left;
+}
+table td.l,
+table th.l {
+  text-align: right;
+}
+table td.c,
+table th.c {
+  text-align: center;
+}
+table td.r,
+table th.r {
+  text-align: center;
+}
+
+@media screen and (max-width: 48em) {
+  table {
+    display: block;
+  }
+  table > *,
+  table tr,
+  table td,
+  table th {
+    display: block;
+  }
+  table thead {
+    display: none;
+  }
+  table tbody tr {
+    height: auto;
+    padding: 8px 0;
+  }
+  table tbody tr td {
+    padding-left: 45%;
+    margin-bottom: 12px;
+  }
+  table tbody tr td:last-child {
+    margin-bottom: 0;
+  }
+  table tbody tr td:before {
+    position: absolute;
+    font-weight: 700;
+    width: 40%;
+    left: 10px;
+    top: 0;
+  }
+  table tbody tr td:nth-child(1):before {
+    content: "Correo";
+    background-color: #FFDA4B;
+    border-radius: 6px;
+    text-align: center;
+  }
+  table tbody tr td:nth-child(2):before {
+    content: "Nombre";
+    background-color: #FFDA4B;
+    border-radius: 6px;
+    text-align: center;
+  }
+  table tbody tr td:nth-child(3):before {
+    content: "Rol";
+    background-color: #FFDA4B;
+    border-radius: 6px;
+    text-align: center;
+  }
+  table tbody tr td:nth-child(4):before {
+    content: "Sueldo";
+    background-color: #FFDA4B;
+    border-radius: 6px;
+    text-align: center;
+  } 
+  table tbody tr td:nth-child(5):before {
+    content: "PM";
+    background-color: #FFDA4B;
+    border-radius: 6px;
+    text-align: center;
+  }
+  table tbody tr td:nth-child(6):before {
+    content: " ";
+  }
+}
+
+ #row-vimeo-bg-video {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.et_pb_text_0 {
+    margin-top: 80px!important;
+    margin-bottom: 10px!important;
+}
+.et_pb_text>:last-child {
+    padding-bottom: 0;
+} 
+.et_pb_text_inner {
+    position: relative; 
+}
+.et_pb_module {
+    -webkit-animation-timing-function: linear;
+    -moz-animation-timing-function: linear;
+    -o-animation-timing-function: linear;
+    animation-timing-function: linear;
+}
+.et_pb_text_align_center {
+    text-align: center;
+} 
+
+.et_pb_module{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.et_pb_text{
+   word-wrap: break-word;
+}
+.et_pb_text_inner h2{
+  font-family: 'museo-sans',"Open Sans",Arial,sans-serif;
+  vertical-align: baseline;
+  margin-top: 300px;
+  font-size: 65px;
+  font-weight: bold;
+  line-height: 1.2;
+  color: #fff!important;
+}
+.et_pb_text_inner h1{
+   color: #fff!important;
+}

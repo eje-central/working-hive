@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "css-build": "node-sass --omit-source-map-url public/stylesheets/style.scss public/stylesheets/style.css",
     "dev": "DEBUG=eje-central:* nodemon ./bin/www",
     "dev-windows": "nodemon ./bin/www"
   },
@@ -11,16 +12,22 @@
     "axios": "^0.18.0",
     "bcrypt": "^3.0.3",
     "body-parser": "^1.18.3",
+    "bulma": "^0.7.4",
+    "bulma-badge": "^0.2.0",
+    "bulma-switch": "^2.0.0",
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^2.0.3",
     "cookie-parser": "^1.4.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "hbs": "^4.0.1",
+    "moment": "^2.24.0",
     "mongoose": "^5.2.10",
     "morgan": "^1.9.0",
+    "node-sass": "^4.11.0",
     "node-sass-middleware": "^0.11.0",
     "nodemailer": "^5.1.1",
     "passport": "^0.4.0",
@@ -29,6 +36,8 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-config-google": "^0.12.0",
     "nodemon": "^1.12.1"
   }
 }
