@@ -143,19 +143,22 @@ document.addEventListener(
 
     document.getElementById("etapaBoton").onclick = function () {
       let etapa = document.getElementById('etapa');
-      let responsable = document.getElementById('respID');
+      let responsable = document.getElementById('resp');
+      let grado = document.getElementById('grado');
       let text = etapa.value;
       let resp = responsable.value;
+      let money = grado.value;
 
 
       let etapas = document.getElementById('tags');
       etapas.innerHTML += `<span class="tag is-warning">${text}</span>`
       etapas.innerHTML += `<input style="display:none" name="etapa" value="${text}">`
       etapas.innerHTML += `<input style="display:none" name="resp" value="${resp}">`
+      etapas.innerHTML += `<input style="display:none" type="number" name="grado" value="${money}">`
 
       document.getElementById('etapa').value = "";
       document.getElementById('resp').value = "";
-      document.getElementById('respID').value = "";
+      document.getElementById('grado').value = "";
       event.preventDefault();
 
       // agregarAPI(text);
@@ -177,6 +180,11 @@ document.addEventListener(
 //     });
 //  }
 
+  window.onload = function() {
+    mensaje = decodeURIComponent(window.location.search)
+    document.getElementById('mensaje').innerHTML = mensaje.substring(60,3);
+
+  }
 
 
   },

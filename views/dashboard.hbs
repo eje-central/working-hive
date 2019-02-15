@@ -16,19 +16,9 @@
           <div class="column">
             <div class="tags are-medium has-background-warning is-centered box" id="tags">
               
-              <div class="modal">
-                <div class="modal-background"><</div>
-                  {{!-- {{#each etapas.nom}} --}}
-                  <div class="modal-content is-clipped">
-                    <div class="box">
-                      <span class=" button is-small tag {{tagColor color}} showModal">El total del proyecto se cotizó por: ${{this.pesos}}</span>
-                    </div>
-                  </div>
-                  {{!-- {{/each}} --}}
-                  <button class="modal-close is-large"></button>
-                </div>
-                {{#each etapas.nom}}
-                <span class=" button is-small tag {{tagColor color}} showModal">{{this}}</span>
+              <div class="">
+                {{#each etapas}}
+                <span class="is-small tag {{tagColor color}} showModal">{{this.nom}}</span>
                 {{/each}}
               </div>
               

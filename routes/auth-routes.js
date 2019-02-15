@@ -6,6 +6,7 @@ const ensureLogin = require("connect-ensure-login");
 const nodemailer = require("nodemailer");
 const User = require('../models/user');
 const Proyecto = require('../models/proyecto');
+const moment = require('moment')
 
 
 const bcrypt = require('bcrypt')
@@ -129,32 +130,151 @@ authRoutes.get('/private-mess', ensureLogin.ensureLoggedIn(), (req, res, next) =
 })
 
 authRoutes.get('/reportes', ensureLogin.ensureLoggedIn(), (req, res, next) => {
-  Proyecto.find({}, 'cotizacion')
+  Proyecto.find()
   .then(ingresos => {
-    var suma = 0;
+    var sumaIngresos = 0;
+    var datos = [];
+    var proyectos = [];
+    var etap = [];
+    var enTiempo = 0;
+    var atrasados = 0;
+    var adelantados = 0;
+    const now = new Date();
+
+    
+    function onlyUnique (value, index, self) {
+      return self.indexOf(value) === index;
+    }
+
     ingresos.forEach(element => {
-      suma = suma + element.cotizacion 
+    
+      if(moment(element.fechaFin).isAfter(now)) {
+        enTiempo = enTiempo + 1
+      } else {
+        atrasados = atrasados + 1
+      }
+
+      sumaIngresos = sumaIngresos + element.cotizacion 
+      datos.push(element.cotizacion)
+
+      pedo = element.nombre
+      p = pedo.toString()
+      proyectos.push(p)
+
+      element.etapas.forEach(el => {
+        et = {
+          nom: el.nom[0],
+          gen: el.genera
+        }
+        etap.push(et)
+      })
     });
-    res.render('reportes', { user: req.user, suma })
+
+    var temp = {};
+    var uniqueEtapas = null;
+
+    for(var i = 0; i < etap.length; i++) {
+      uniqueEtapas = etap[i];
+      if(!temp[uniqueEtapas.nom]) {
+        temp[uniqueEtapas.nom] = uniqueEtapas;
+      } else {
+        temp[uniqueEtapas.nom].gen += uniqueEtapas.gen;
+      }
+    }
+
+    var uniqueRes = [];
+    for (var prop in temp)
+      uniqueRes.push(temp[prop]);
+  
+   
+  User.find({}, 'salary')
+  .then(salary => {
+    var sumaSalarios = 0;
+    salary.forEach(element => {
+      sumaSalarios = sumaSalarios + (element.salary?element.salary:0)
+
+    });
+    var promedio = 0
+    if(sumaIngresos !== 0) {
+      promedio = sumaIngresos/proyectos.length;
+    }
+      
+      res.render('reportes', { user: req.user, sumaIngresos, sumaSalarios, datos, proyectos, promedio, ingresos, enTiempo, atrasados, adelantados, uniqueRes})
+    })
   })
   .catch((err) => {console.log(err)})
-  
 })
 
 authRoutes.get('/trabajadores', ensureLogin.ensureLoggedIn(), (req, res, next) => {
-  res.render('trabajadores', { user: req.user })
+  Proyecto.find()
+  .populate('etapas.responsable')
+  .populate('users')
+  //populate de tareas
+  .then (userses => { 
+    console.log(userses)
+    var trabajador = [];
+ 
+    userses.forEach(proyecto => {
+      var a = moment(proyecto.fechaFin);
+      var b = moment(proyecto.fechaInicio);
+
+      pr = {
+        fechaInicio: proyecto.fechaInicio, 
+        fechaFin: proyecto.fechaFin,
+        nombre: proyecto.nombre,
+        periodo: a.diff(b,'days') + 1
+      }
+      proyecto.etapas.forEach(el => {
+        et = {
+          nom: el.responsable[0].name,
+          id: el.responsable[0]._id,
+          etapas: [el.nom[0]],
+          gen: el.genera,
+          tareas: [],
+          proyecto: [pr.nombre],
+          diarios: Number(el.genera)/Number(pr.periodo)
+        }
+        trabajador.push(et)
+      })
+    })
+
+    var temp = {};
+    var uniqueTrabajadores = null;
+
+    for(var i = 0; i < trabajador.length; i++) {
+      uniqueTrabajadores = trabajador[i];
+      if(!temp[uniqueTrabajadores.id]) {
+        temp[uniqueTrabajadores.id] = uniqueTrabajadores;
+      } else {
+        temp[uniqueTrabajadores.id].etapas = temp[uniqueTrabajadores.id].etapas.concat(uniqueTrabajadores.etapas);
+        temp[uniqueTrabajadores.id].gen += uniqueTrabajadores.gen;
+        temp[uniqueTrabajadores.id].diarios += uniqueTrabajadores.diarios;
+        temp[uniqueTrabajadores.id].proyecto = temp[uniqueTrabajadores.id].proyecto.concat(uniqueTrabajadores.proyecto);
+      }
+    }
+
+    var uniqueRes = [];
+    for (var prop in temp)
+      uniqueRes.push(temp[prop]);
+    
+    console.log(trabajador)
+    console.log(uniqueRes)  
+
+    res.render('trabajadores', { user: req.user, userses, uniqueRes })
+  })
+  .catch((err) => {console.log(err)})
 })
 
-authRoutes.get('/trabajadores-detalle', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+authRoutes.get('/trabajadores/:id', ensureLogin.ensureLoggedIn(), (req, res, next) => {
   res.render('detalle-trabajador', { user: req.user })
 })
 
 authRoutes.get('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
-  
   User.find()
   .populate('users')
   .then (userses => {
-    res.render('nuevo', { user: req.user, userses })
+    
+    res.render('nuevo', { user: req.user, userses})
   })
   .catch((err) => {console.log(err)})
 })
@@ -174,35 +294,78 @@ authRoutes.get('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
 // })  
 
 authRoutes.post('/nuevo', ensureLogin.ensureLoggedIn(), (req, res, next) => {
-  const {nombre, descripcion, dineros, fechaInicio, fechaFin, etapa, resp} = req.body;
+  const {nombre, descripcion, dineros, fechaInicio, fechaFin, etapa, resp, grado} = req.body;
   const color = 'is-warning';
   const pesos = new Intl.NumberFormat().format(dineros)
   const mayus = nombre.toUpperCase();
-  console.log("--------->",pesos)
-  Proyecto.findOne({nombre})
+  var ets = [];
+
+
+
+  Proyecto.findOne({'nombre': mayus})
   .then(nom => {
+    console.log(nom)
     if (nom !== null) {
-      res.render('nuevo', {message: 'El nombre del proyecto ya existe. Intenta poner uno nuevo'});
+      res.redirect('/nuevo?e=' + encodeURIComponent('El nombre del proyecto ya existe. Intenta poner uno nuevo'));
       return;
     }
+
+    function etapas(nombre, respon, grado) {
+      return {
+        nom: nombre,
+        responsable: respon,
+        tareas: [],
+        finalizada: 'false', 
+        grado: grado
+      }
+    }
+    console.log(grado)
+     if (etapa !== undefined && Array.isArray(etapa)) {
+      for(var e = 0; e < etapa.length; e++){
+        ets.push(etapas(etapa[e],resp[e],grado[e]))
+      } 
+     } else if (etapa !== undefined) {
+        ets.push(etapas(etapa,resp,grado))
+    } else if (etapa == undefined) {
+        res.redirect('/nuevo?e=' + encodeURIComponent('El proyecto debe de contar por lo menos con una etapa'));
+        return
+    }
+    
+   if (ets.length >= 0) {
+     var div = 0;
+     
+
+     ets.forEach(etapaProyecto => {
+      div = div + Number(etapaProyecto.grado)
+     })
+    
+     var d = dineros/div;
+     ets.forEach(etapaProyecto => {
+      etapaProyecto.genera = etapaProyecto.grado * d
+     }) 
+   } 
+
 
   const proyectoNuevo = new Proyecto ({
     nombre:mayus, 
     descripcion, 
-    etapas:{
-      nom:etapa,
-      responsable:resp
-    }, 
+    etapas: ets, 
     cotizacion:dineros,
     pesos, 
     fechaInicio, 
     fechaFin, 
-    color
+    color,
+    finalizado: 'false'
   });
+
+  if (mayus == "" || descripcion == "" || ets == [] || dineros == 0 || pesos == "" || fechaInicio == "" || fechaFin == "") {
+    res.redirect('/nuevo?e=' + encodeURIComponent('Favor de completar todos los campos'));
+    return;
+  }
 
     proyectoNuevo.save((err) => {
       if (err) {
-        res.render('nuevo', {message: 'Algo salió mal'})
+        res.redirect('nuevo?e=' + encodeURIComponent('Por alguna razón no se pudo guardar el nombre. Intenta más tarde'))
       } else {
         res.redirect('/home')
       }
@@ -219,7 +382,13 @@ authRoutes.get('/home/:id', ensureLogin.ensureLoggedIn(), (req, res) => {
   .populate('etapas.responsable')
   //aqui debería de ir el populate de tareas
   .then(proyecto => {
-    res.render('estatusProyecto', {user: req.user, proyecto})
+    let date = proyecto.fechaFin.toDateString();
+    let fecha = moment(date).format("MMM D YYYY");
+    
+
+
+    res.render('estatusProyecto', {user: req.user, proyecto, fecha})
+    console.log(fecha, "TEXTO INTERMEDIO", proyecto);
   })
   .catch ((err) => {console.log(err)})
 })
