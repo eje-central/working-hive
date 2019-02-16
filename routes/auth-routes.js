@@ -25,7 +25,7 @@ const transporter = nodemailer.createTransport({
   port: 465,
   auth: {
     user: "sistema@ejecentral.studio",
-    pass: "R-UNuw8TZn5MpaC"
+    pass: "ZV9UeaLm4r7E4Jd"
   }
 });
 
