@@ -189,6 +189,8 @@ document.addEventListener(
       });
     });
 
+
+
     document.getElementById("etapaBoton").onclick = function () {
       let etapa = document.getElementById('etapa');
       let responsable = document.getElementById('resp');
@@ -209,8 +211,52 @@ document.addEventListener(
       document.getElementById('grado').value = "";
       event.preventDefault();
 
-      // agregarAPI(text);
+      
     }
+
+
+
+    function addTarea(){
+      axios
+        .post("/home-tarea", {
+          nom: $("#tarea").val(),
+          responsable: $("#respTarea").val(),
+          fechaI: '',
+          fechaC: '',
+          fechaF: '',
+          finalizada: 'false', 
+          grado: $("#gradoTarea").val(),
+          creador: req.user.id
+
+          // username: $("#username").val(),
+          // name: $("#name").val(),
+          // rol: $("#rol").val(),
+          // salary: $("#salary").val(),
+          // pm: $("#pm").prop("checked")
+        })
+        .then(responseFromAPI => {
+          console.log(
+            "Response from API is:",
+            responseFromAPI,
+            responseFromAPI.data.message
+          );
+          if (responseFromAPI.data.success===false){
+            alert(responseFromAPI.data.message);
+            $("#modal-guardar-usuario").removeClass("is-loading");
+          }
+          else{
+              alert('El usuario se agregó correctamente')          
+              $(".modal").removeClass("is-active");
+            $("#modal-guardar-usuario").removeClass("is-loading");
+              window.location.href = "/users";
+              }
+          
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+
 
 //  function agregarAPI(etapa){
 //    let nuevaEtapa = {
@@ -239,3 +285,28 @@ document.addEventListener(
 );
 
 
+document.getElementById("tareaBoton").onclick = function () {
+  let tarea = document.getElementById('tarea');
+  let responsable = document.getElementById('respTarea');
+  let grado = document.getElementById('gradoTarea');
+  let id = document.getElementById('etapaId');
+  let user = document.getElementById('userId');
+  let text = tarea.value;
+  let resp = responsable.value;
+  let money = grado.value;
+  let etId = id.innerHTML
+
+  
+
+  let etapas = document.getElementById('tagsTarea');
+  etapas.innerHTML += `<span class="tag is-warning">${text}</span>`
+  etapas.innerHTML += `<input style="display:none" name="tarea" value="${text}">`
+  etapas.innerHTML += `<input style="display:none" name="resp" value="${resp}">`
+  etapas.innerHTML += `<input style="display:none" type="number" name="gradox" value="${money}">`
+  //etapas.innerHTML += `<input style="display:none" type="number" name="idEt" value="${etId}">`
+
+  document.getElementById('tarea').value = "";
+  document.getElementById('respTarea').value = "";
+  document.getElementById('gradoTarea').value = "";
+  event.preventDefault();      
+}

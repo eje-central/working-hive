@@ -105,12 +105,11 @@
          updatePassword(this.id);
          $(".message").attr("style", "display: none");
        }else{
-         alert("¡Las contraseñas no coinciden!")
+         alert("¡La contraseña nueva y la contraseña de confirmación no coinciden!")
        }
        
     })
     function updatePassword(id) { 
-      
       axios.put("/user/updatePassword", {
         currentpwd: $("#currentpwd").val(),
         newpwd: $("#newpwd").val(),
@@ -119,15 +118,16 @@
         .then(resp => {
           console.log(resp.data)
           if (resp.data.success) {
-             
+             alert("La contraseña se actualizó correctamente")
           } else {
-            
+            alert("Error: "+ resp.data.mensaje)
           }
         })
         .catch(err => {
           
         })
     }
+    
   });
 
   

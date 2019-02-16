@@ -7544,45 +7544,38 @@ table th.r {
   table tbody tr td:nth-child(6):before {
     content: " "; } }
 
-#row-vimeo-bg-video {
-  position: absolute;
-  top: -20px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden; }
+@media screen and (max-width: 48em) {
+  .fullscreen-bg__video {
+    display: none; }
+  .fullscreen-bg {
+    background: linear-gradient(rgba(20, 20, 20, 0.5), rgba(20, 20, 20, 0.5)), url("../images/backgroundIndex.jpg") !important;
+    background-repeat: no-repeat !important;
+    background-size: auto !important;
+    background-position: center !important;
+    background-color: rgba(0, 0, 0, 0.5) !important; }
+  .et_pb_text_inner h2 {
+    margin-top: 150px !important; }
+  .tj-resp-h2 {
+    font-size: 30px !important; }
+  .et_pb_text_inner h1 {
+    font-size: 15px !important; } }
 
-.et_pb_text_0 {
-  margin-top: 80px !important;
-  margin-bottom: 10px !important; }
+@media (min-width: 48em) and (max-width: 900px) {
+  .et_pb_text_inner h2 {
+    margin-top: 100px !important; }
+  .tj-resp-h2 {
+    font-size: 40px !important; } }
 
-.et_pb_text > :last-child {
-  padding-bottom: 0; }
-
-.et_pb_text_inner {
-  position: relative; }
-
-.et_pb_module {
-  -webkit-animation-timing-function: linear;
-  -moz-animation-timing-function: linear;
-  -o-animation-timing-function: linear;
-  animation-timing-function: linear; }
-
-.et_pb_text_align_center {
-  text-align: center; }
-
-.et_pb_module {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover; }
-
-.et_pb_text {
-  word-wrap: break-word; }
+@media (min-width: 900px) and (max-width: 1200px) {
+  .et_pb_text_inner h2 {
+    margin-top: 200px !important; }
+  .tj-resp-h2 {
+    font-size: 45px !important; } }
 
 .et_pb_text_inner h2 {
   font-family: 'museo-sans',"Open Sans",Arial,sans-serif;
   vertical-align: baseline;
-  margin-top: 300px;
+  margin-top: 250px;
   font-size: 65px;
   font-weight: bold;
   line-height: 1.2;
@@ -7590,5 +7583,27 @@ table th.r {
 
 .et_pb_text_inner h1 {
   color: #fff !important; }
+
+.fullscreen-bg {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -100;
+  background-color: #292929; }
+
+.fullscreen-bg__video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; }
+
+.table__wrapper {
+  overflow-x: auto; }
+
+.pricing {
+  width: 100%; }
 
 /*# sourceMappingURL=style.css.map */
