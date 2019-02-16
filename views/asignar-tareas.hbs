@@ -1,0 +1,104 @@
+<body class="inside">
+  <br>
+<br>
+<div class="tile is-ancestor">
+  <div class="tile is-parent is-vertical">
+    <div class="tile is-child has-text-centered box has-background-dark has-text-white">
+      <p class="title has-text-white">{{proyecto.[0].etapas.[0].nom.[0]}}</p>
+
+  <div class="columns">
+    
+      <div class="column">
+        <form action='/home-tareas' method="POST">
+          <input id="tarea" class="input nomTarea is-medium" type="text" placeholder="Introduce el nombre de la tarea">
+          <br><br>
+          <div class="select is-medium">
+            <select id="respTarea">
+              <option>Persona responsable de la etapa</option>
+              {{#each users}}
+              <option class="input resp" type="text" value="{{this._id}}">{{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <br><br>
+          <div class="select is-medium ">
+            <select id="gradoTarea">
+              <option>Grado de importancia al proyecto</option>
+              <option  class="input resp" type="number" value="1">Bajo</option>
+              <option  class="input resp" type="number" value="2">Medio</option>
+              <option  class="input resp" type="number" value="3">Alto</option>
+            </select>
+          </div>
+
+            <div class="control">
+              <br>
+              <button id="tareaBoton" class="button is-medium is-warning is-outlined" >Agregar tarea</button>
+            </div>
+            <button class="button is-warning is-medium is-outlined is-flex" type="submit">Finalizar</button>
+            <div id="tagsTarea" class="tags are-large is-centered">
+               <input id="generaEtapa" style="display:none" name="gen" value="{{proyecto.[0].etapas.[0].genera}}">
+               <input style="display:none" name="id" value="{{proyecto.[0]._id}}">
+               <input id="userId" style="display:none" name="user" value="{{user._id}}">
+    
+            </div>
+        </form>
+        <br>
+        <div class="field is-grouped">
+        <div class="control">
+          
+        </div>
+        </div>
+      </div>
+      
+      </div>
+
+
+
+    </div>
+  </div>
+  <div class="tile is-parent is-2 has-text-centered">
+    <div class="tile is-child box has-background-warning">
+      <p class="title">Entrega</p>
+      <p id="etapaId">{{proyecto._id}}</p>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+{{#each proyecto.etapas}}
+<div>
+  <div class="box columns has-background-white-ter is-vcentered">
+    <div class="column is-2 has-text-centered">
+      <div class="is-flex is-horizontal-center">
+        <figure class="image is-64x64 ">
+          <img class="is-rounded is-centered" src="../images/emmanuel.jpg">
+        </figure>
+      </div>
+      <p class="has-text-centered">  {{this.responsable.[0].name}} </p>
+    </div>
+    <div class="column is-10">
+      <div class="tags are-medium has-background-warning is-centered box" id="tags">
+        <div class="column box">
+          <article class=" is-child">
+            <h2 class="tag is-medium {{tagColor color}}">{{this.nom.[0]}}</h2>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
+
+<div class="columns">
+  <div class="column has-text-centered">
+    <div class="tag">
+      <h3>Ingreso total por ${{moneda proyecto.[0].etapas.[0].genera}}</h3>
+    </div>
+  </div>
+</div>
+
+</body>

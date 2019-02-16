@@ -1,6 +1,6 @@
 <body class="inside">
    <br>
-  <div class="columns is-multiline is-mobile has-text-centered">
+{{!--   
     <div class="column is-half">
 
     </div>
@@ -17,34 +17,54 @@
           </a>
         </p>
       </div>
+    </div> --}}
+<div class="tile is-ancestor">
+  <div class="tile is-vertical is-12">
+    <div class="tile">
+      <div class="tile is-parent is-vertical">
+        <article class="tile is-child box is-hidden-mobile">
+          <div class="columns">
+            <div class="column">
+              <span class="subtitle"><strong> Nombre </strong></span>
+            </div>
+            <div class="column">
+              <span class="subtitle"><strong> Proyectos </strong></span>
+            </div>
+            <div class="column">
+              <span class="subtitle"><strong> Etapas </strong></span>
+            </div>
+            <div class="column">
+              <span class="subtitle"><strong> Ingresos por día </strong></span>
+            </div>
+          </div>
+        </article>
+        {{#each uniqueRes}}
+        <article class="tile is-child box">
+          <div class="columns">
+            <div class="column">
+              <span class="subtitle is-hidden-tablet"><strong> Nombre </strong></span>
+              <a href="/trabajadores/{{this.id}}" class="label has-text-link">{{this.nom}}</a>
+            </div>
+            <div class="column">
+              <span class="subtitle is-hidden-tablet"><strong> Proyectos </strong></span>
+            {{#each this.proyecto}}
+              <span>{{this}}</span>
+            {{/each}}
+            </div>
+            <div class="column">
+              <span class="subtitle is-hidden-tablet"><strong> Etapas </strong></span>
+              <span>{{this.etapas}}</span>
+            </div>
+            <div class="column">
+              <span class="subtitle is-hidden-tablet"><strong> Ingresos por día </strong></span>
+              <span>$ {{moneda this.diarios}}</span>
+            </div>
+          </div>
+        </article>
+        {{/each}}
+      </div>
     </div>
+  </div>
+</div>
     
-    <div class="column is-one-quarter">
-      <h3><strong> Nombre </strong></h3>
-    </div>
-    <div class="column is-one-quarter">
-      <h3><strong> Proyectos </strong></h3>
-    </div>
-    <div class="column is-one-quarter">
-      <h3><strong> Etapas </strong></h3>
-    </div>
-    <div class="column is-one-quarter">
-      <h3><strong> Ingresos por día </strong></h3>
-    </div>
-    {{#each uniqueRes}}
-        <div class="column is-one-quarter">
-          <a href="/trabajadores/{{this.id}}" class="label">{{this.nom}}</a>
-        </div>
-    <div class="column is-one-quarter">
-      {{#each this.proyecto}}
-      <h3>{{this}}</h3>
-      {{/each}}
-    </div>
-    <div class="column is-one-quarter">
-      <h3>{{this.etapas}}</h3>
-    </div>
-    <div class="column is-one-quarter">
-      <h3>${{moneda this.diarios}}</h3>
-    </div>
-    {{/each}}
 </body>
