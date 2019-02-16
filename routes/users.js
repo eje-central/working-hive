@@ -7,12 +7,21 @@ const ensureLogin = require("connect-ensure-login");
 const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
 
+const makeid = () => {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 10; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+} 
+
 const transporter = nodemailer.createTransport({
   host: "smtp.ionos.mx",
   port: 465,
   auth: {
     user: "sistema@ejecentral.studio",
-    pass: "R-UNuw8TZn5MpaC"
+    pass: "ZV9UeaLm4r7E4Jd"
   }
 });
 const mailOptions = (nombre, correo, mensaje) => ({
@@ -55,6 +64,7 @@ authRoutes.get("/user/add", ensureLogin.ensureLoggedIn(), (req, res) => {
     Roles.find()
       .populate("Roles")
       .then(roles => { 
+        
         res.render("user-add", { user: req.user, roles });
       })
       .catch(err => {
@@ -73,10 +83,24 @@ authRoutes.post("/user/add", ensureLogin.ensureLoggedIn(), (req, res, next) => {
           message: `El usuario ${username} ya existe`
         }); 
       }else{ 
-        const newUser = new User({ username, name, password: "", rol, salary, pm });
+        const pwsTemp = makeid();
+        const salt = bcrypt.genSaltSync(10);
+        const hashPass = bcrypt.hashSync(pwsTemp, salt);
+        const newUser = new User({ username, name, password: hashPass, rol, salary, pm });
         newUser
           .save()
           .then(() => {
+            transporter.sendMail(mailOptions(name, username, `Bienvenido a Working Hive, tu contraseña temporal es ${pwsTemp}. Accede a tu perfil aqui: https://working-hive.appspot.com`), function (
+              error,
+              info
+            ) {
+              if (error) {
+                console.log(error);
+
+              } else {
+                console.log("Email sent: " + info.response);
+              }
+            });
             res.json({ success: username });
           })
           .catch(err => console.log(err)); 
@@ -107,6 +131,17 @@ authRoutes.put("/user/update",
       .then(user => {   
         User.updateOne({ _id: user._id }, { $set: { username, name, rol, salary, pm } })
           .then(resp => { 
+            transporter.sendMail(mailOptions(user.name, user.username, `Se han actualizado datos de tu perfil correctamente. Visita https://working-hive.appspot.com/perfil para revisarlos.`), function (
+              error,
+              info
+            ) {
+              if (error) {
+                console.log(error);
+
+              } else {
+                console.log("Email sent: " + info.response);
+              }
+            });
             res.json({ success: true})
           })
           .catch((error) => {  
@@ -126,14 +161,14 @@ authRoutes.put("/user/updatePassword",
     User.findOne({ '_id': userId })
       .then(user => {
         if (!bcrypt.compareSync(currentpwd, user.password)) {
-          res.json({ success: false, mensaje: "Contraseña incorrecta" })
+          res.json({ success: false, mensaje: "Contraseña actual incorrecta" })
         }else{
           //res.json({ success: true, mensaje: "contraseña CORRECTA"  })
           const salt = bcrypt.genSaltSync(10);
           const hashPass = bcrypt.hashSync(newpwd, salt);
           User.updateOne({ _id: user._id }, { $set: { password: hashPass } })
             .then(resp => {
-              transporter.sendMail(mailOptions(user.name, user.username, `tu contraseña se actualizó correctamente. <br> <b>Nueva contraseña:</b>${newpwd}`), function (
+              transporter.sendMail(mailOptions(user.name, user.username, `tu contraseña se actualizó correctamente. Nueva contraseña:${newpwd}`), function (
                 error,
                 info
               ) {

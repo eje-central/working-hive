@@ -6,6 +6,7 @@ const ensureLogin = require("connect-ensure-login");
 const nodemailer = require("nodemailer");
 const User = require('../models/user');
 const Proyecto = require('../models/proyecto');
+const Tarea = require('../models/tarea');
 const moment = require('moment')
 
 
@@ -25,7 +26,7 @@ const transporter = nodemailer.createTransport({
   port: 465,
   auth: {
     user: "sistema@ejecentral.studio",
-    pass: "R-UNuw8TZn5MpaC"
+    pass: "ZV9UeaLm4r7E4Jd"
   }
 });
 
@@ -225,6 +226,7 @@ authRoutes.get('/trabajadores', ensureLogin.ensureLoggedIn(), (req, res, next) =
         periodo: a.diff(b,'days') + 1
       }
       proyecto.etapas.forEach(el => {
+        console.log("EL ERROR:", el)
         et = {
           nom: el.responsable[0].name,
           id: el.responsable[0]._id,
@@ -388,7 +390,6 @@ authRoutes.get('/home/:id', ensureLogin.ensureLoggedIn(), (req, res) => {
 
 
     res.render('estatusProyecto', {user: req.user, proyecto, fecha})
-    console.log(fecha, "TEXTO INTERMEDIO", proyecto);
   })
   .catch ((err) => {console.log(err)})
 })
@@ -412,6 +413,176 @@ authRoutes.get('/perfil', ensureLogin.ensureLoggedIn(), (req, res, next) => {
   res.render('perfil', { user: req.user })
 })
 
+authRoutes.get('/home-tareas', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  console.log(req.user)
+  Proyecto.find()
+  .then (proyectos => {
+    
+    var proyecto = [];
+    var etapas = [];
+
+    proyectos.forEach(element => {
+      element.etapas.forEach(el => {
+        if(el.responsable[0].equals(req.user._id)) {
+          proyecto.push(element);
+          etapas.push(el);
+        }
+      })
+    })
+
+    
+    for(var i = 0; i < proyecto.length; i++) {
+     
+      for(var l = 0; l < proyecto[i].etapas.length; l++) {
+       
+        if(!proyecto[i].etapas[l].responsable[0].equals(req.user._id)) {
+          
+          proyecto[i].etapas.splice(l,1);
+          l = l -1
+        }
+      }
+    }
+      
+    res.render('home-gerente', {user: req.user, etapas, proyecto})
+  })
+  .catch ((err) => {console.log(err)})
+})
+
+authRoutes.get('/home-tareas/:id', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  let etapasId = req.params.id;
+  console.log(etapasId)
+  Proyecto.find()
+  .then (proyectos => {
+    
+    var proyecto = [];
+    var etapas = [];
+
+    proyectos.forEach(element => {
+      element.etapas.forEach(el => {
+        if(el.responsable[0].equals(req.user._id)) {
+          proyecto.push(element);
+          etapas.push(el);
+        }
+      })
+    })
+
+    User.find()
+    .then( users => {
+
+    
+
+    for(var i = 0; i < proyecto.length; i++) {
+     
+      for(var l = 0; l < proyecto[i].etapas.length; l++) {
+       
+        if(!proyecto[i].etapas[l].responsable[0].equals(req.user._id)) {
+          
+          proyecto[i].etapas.splice(l,1);
+          l = l -1
+        }
+      }
+    }
 
 
+    console.log(proyecto)
+    res.render('asignar-tareas', {user: req.user, proyecto, users})
+  })
+    })
+  .catch ((err) => {console.log(err)})
+})
+
+authRoutes.post('/home-tareas', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  console.log("HOLAAAAAA", req.body)
+  const {tarea, resp, grado, gen, id} = req.body;
+ 
+
+
+
+
+
+
+
+
+
+  var ets;
+
+  
+  Proyecto.find()
+  .then(proyecto => {
+  
+    function tareas(nombre, respon, grado, gen) {
+      return {
+        nom: nombre,
+        responsable: respon,
+        fechaI: '',
+        fechaC: '',
+        fechaF: '',
+        finalizada: 'false', 
+        grado: grado,
+        creador: req.user.id
+      }
+    }
+
+     if (tarea !== undefined && Array.isArray(tarea)) {
+      for(var e = 0; e < tarea.length; e++){
+        ets.push(tareas(tarea[e],resp[e],grado[e],gen))
+      } 
+     } else if (tarea !== undefined) {
+        ets.push(tareas(tarea,resp,grado,gen))
+    } else if (tarea == undefined) {
+        res.redirect('/home-tareas/:id?e=' + encodeURIComponent('El proyecto debe de contar por lo menos con una tarea'));
+        return
+    }
+    
+   if (ets.length >= 0) {
+     var div = 0;
+     
+
+     ets.forEach(etapaProyecto => {
+      div = div + Number(etapaProyecto.grado)
+     })
+    
+     var d = gen/div;
+     //var rest= 0;
+     ets.forEach(etapaProyecto => {
+      etapaProyecto.genera = etapaProyecto.grado * d
+     }) 
+   } 
+
+  if (ets == []) {
+    res.redirect('/home-tareas/:id?e=' + encodeURIComponent('Favor de completar todos los campos'));
+    return;
+  }
+
+  const newTarea = new Tarea ({nom: "algonoese3",
+    responsable: req.user.id,
+    fechaI: '',
+    fechaC: '',
+    fechaF: '',
+    finalizada: 'false', 
+    grado: '2',
+    generaEtapa: 1,
+    genera: 2112 ,
+    creador: req.user.id,
+  })
+  newTarea
+    .save()
+    .then(() => {
+      console.log("Se creo la tarea",req.user.id, "LOL")
+
+      Tarea.findOne({"creador": req.user.id}, {}, { sort: { 'created_at' : -1 } }) 
+      //Tarea.find()
+      .then(rest => {
+
+
+        console.log( "se optiene el elemento: ",rest._id );
+
+      }) 
+  
+
+
+    })
+    .catch(err => console.log(err)); 
+    });
+  })
 module.exports = authRoutes
