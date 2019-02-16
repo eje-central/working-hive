@@ -7,7 +7,7 @@ const proyectoSchema = new Schema({
   etapas: [{
     nom: Array,
     responsable: [ { type : Schema.Types.ObjectId, ref: 'User' } ],
-    tareas: [ { type : Schema.Types.ObjectId, ref: 'User' } ],
+    tareas: [ { type : Schema.Types.ObjectId, ref: 'Tarea' } ],
     finalizada: String,
     grado: Number,
     genera: Number

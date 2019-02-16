@@ -7598,6 +7598,10 @@ table th.r {
   position: absolute;
   top: 0;
   left: 0;
+.table__wrapper {
+  overflow-x: auto; }
+
+.pricing {
   width: 100%; }
 
 /*# sourceMappingURL=style.css.map */

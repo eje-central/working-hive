@@ -281,4 +281,10 @@ table th.r {
     top: 0;
     left: 0;
     width: 100%;  
+.table__wrapper {
+  overflow-x: auto;
+}
+
+.pricing {
+  width: 100%;
 }

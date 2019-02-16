@@ -1,5 +1,5 @@
 <body class="inside">
-  <section class="hero is-bold is-warning">
+    <section class="hero is-bold is-warning">
     <div class="hero-body titleDash">
       <h1 class="title "> Eje-Central </h1>
   
@@ -7,17 +7,22 @@
   </section>
 
   <section class="height separado">
-       {{#each proyectos}}
+       {{#each proyecto}}
       <div>
         <div class="box columns has-background-white-ter is-vcentered">
           <div class="column">
-            <a href="/home/{{this._id}}" class="label">{{this.nombre}}</a>
+            <div class="box">
+            <span class="subtitle">Proyecto {{this.nombre}}</span> <span style="display:none">{{this._id}} </span>
+            {{#each etapas}}
+            <a href="/home-tareas/{{../this._id}}" class="label">{{this.nom.[0]}}</a>
+            {{/each}}
+            </div>
           </div>
           <div class="column">
             <div class="tags are-medium has-background-warning is-centered box" id="tags">
               
               <div class="">
-                {{#each etapas}}
+                {{#each tareas}}
                 <span class="is-small tag {{tagColor color}} showModal">{{this.nom}}</span>
                 {{/each}}
               </div>
@@ -28,11 +33,4 @@
        {{/each}}
     </div>
   </section>
-
-  {{!-- <div class="separados has-background-grey-white-ter">
-    <div class="box has-text-white-bis has-background-grey">
-      <label class="label has-text-white-bis">Problemas con el proyecto 10</label>
-      <p><small>El proyecto 10 termina mañana. Revisa el avance de tu equipo para no incurrir en atrasos y posibles penalizaciones.</small></p>
-    </div> --}}
-
 </body>
