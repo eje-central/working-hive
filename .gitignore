@@ -7,5 +7,5 @@ npm-debug.log
 # Environment Variables should NEVER be published
 .env
 catalogos.js
-# variables de entorno GCLOUD r
+# variables de entorno GCLOUD
 app.yaml 
