@@ -13,20 +13,12 @@ const moment = require('moment')
 const bcrypt = require('bcrypt')
 const bcryptSalt = 10;
 
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "workinghivenotifier@gmail.com",
-//     pass: "Enero.2019"
-//   }
-// });
-
 const transporter = nodemailer.createTransport({
-  host: "smtp.ionos.mx",
-  port: 465,
+  host: process.env.HOST,
+  port: process.env.MAILPORT,
   auth: {
-    user: "sistema@ejecentral.studio",
-    pass: "ZV9UeaLm4r7E4Jd"
+    user: process.env.USERMAIL,
+    pass: process.env.USERPASS
   }
 });
 

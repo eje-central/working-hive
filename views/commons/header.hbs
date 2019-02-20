@@ -41,6 +41,7 @@
     </div>
     <div class="navbar-menu">
       <div class="navbar-start">
+        {{#if user}}
         <a href="/nuevo" class="navbar-item">
           Proyecto nuevo
         </a>
@@ -63,6 +64,7 @@
             <strong>Log out</strong>
           </a> 
         </div>
+      {{/if}}
       </div>
     </div>
   </nav>

@@ -6,10 +6,11 @@ const authRoutes = express.Router();
 const ensureLogin = require("connect-ensure-login");
 const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
+require('dotenv').config();
 
-const makeid = () => {
+const makeTemporalPassword = () => {
   var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var possible = process.env.POSSIBLE;
 
   for (var i = 0; i < 10; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -17,15 +18,15 @@ const makeid = () => {
 } 
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.ionos.mx",
-  port: 465,
+  host: process.env.HOST,
+  port: process.env.MAILPORT,
   auth: {
-    user: "sistema@ejecentral.studio",
-    pass: "ZV9UeaLm4r7E4Jd"
+    user: process.env.USERMAIL,
+    pass: process.env.USERPASS
   }
 });
 const mailOptions = (nombre, correo, mensaje) => ({
-  from: "sistema@ejecentral.studio",
+  from: process.env.USERMAIL,
   to: correo,
   subject: "Working Hive",
   text: `¡Hola! ${nombre}!, ${mensaje}`
@@ -64,7 +65,6 @@ authRoutes.get("/user/add", ensureLogin.ensureLoggedIn(), (req, res) => {
     Roles.find()
       .populate("Roles")
       .then(roles => { 
-        
         res.render("user-add", { user: req.user, roles });
       })
       .catch(err => {
@@ -73,6 +73,7 @@ authRoutes.get("/user/add", ensureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 authRoutes.post("/user/add", ensureLogin.ensureLoggedIn(), (req, res, next) => { 
+  console.log("DATA MAIL:", process.env.USERPASS);
   const { username, name, rol, salary, pm } = req.body; 
   console.log(req.body);
   User.findOne({ username })
@@ -83,7 +84,7 @@ authRoutes.post("/user/add", ensureLogin.ensureLoggedIn(), (req, res, next) => {
           message: `El usuario ${username} ya existe`
         }); 
       }else{ 
-        const pwsTemp = makeid();
+        const pwsTemp = makeTemporalPassword();
         const salt = bcrypt.genSaltSync(10);
         const hashPass = bcrypt.hashSync(pwsTemp, salt);
         const newUser = new User({ username, name, password: hashPass, rol, salary, pm });

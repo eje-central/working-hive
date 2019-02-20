@@ -18,9 +18,7 @@ const MongoStore = require("connect-mongo")(session);
 
 mongoose
   //.connect('mongodb://localhost/eje-central', {useNewUrlParser: true})
-  .connect(
-    "mongodb://ejecentral:ejecentral@clustercdmx-shard-00-00-wysw9.gcp.mongodb.net:27017,clustercdmx-shard-00-01-wysw9.gcp.mongodb.net:27017,clustercdmx-shard-00-02-wysw9.gcp.mongodb.net:27017/test?ssl=true&replicaSet=ClusterCDMX-shard-0&authSource=admin&retryWrites=true",
-    { useNewUrlParser: true }
+  .connect(process.env.MONGO_CONECTION,{ useNewUrlParser: true }
   )
   .then(x => {
     console.log(
@@ -42,7 +40,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
-  secret: 'ñlasldkalskdalkdngnggnadseeqw13',
+  secret: process.env.SECRET_PSW,
   resave: true,
   saveUninitialized: true,    
   store: new MongoStore({ mongooseConnection: mongoose.connection })
